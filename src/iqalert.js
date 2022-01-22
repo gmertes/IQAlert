@@ -28,8 +28,8 @@ const bodyObserver = new MutationObserver(mutations => {
             }
             //raid
             if(options.raidAlert && mutation.target.data === '00:00') {
-                let source = document.getElementsByTagName('html')[0].innerHTML;
-                if(source.toLowerCase().includes("returned")){
+                let source = document.getElementsByTagName('html')[0].innerHTML.toLowerCase();
+                if(source.includes("raid") && source.includes("returned")){
                     PlaySound(soundEvent, options.soundVolume);
                     notifyMe('IQ Alert!', 'Raid has returned')
                     console.log('Raid returned')
@@ -38,7 +38,6 @@ const bodyObserver = new MutationObserver(mutations => {
         }
 
         mutation.addedNodes.forEach(node => {
-
             if(node.className === "main-section"){
                 //boss
                 if(options.bossAlert && node.innerHTML.includes("boss-container")){
