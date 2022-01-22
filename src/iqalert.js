@@ -5,9 +5,9 @@ async function set_options(){
 }
 set_options()
 
-var soundAuto = 'https://github.com/gmertes/IQAlert/raw/master/auto.mp3'
-var soundBoss = 'https://github.com/gmertes/IQAlert/raw/master/boss.mp3'
-var soundEvent = 'https://github.com/gmertes/IQAlert/raw/master/event.mp3'
+var soundAuto = chrome.runtime.getURL("auto.mp3")
+var soundBoss = chrome.runtime.getURL("boss.mp3")
+var soundEvent = chrome.runtime.getURL("event.mp3")
 
 var desktopNotificationOnCooldown = false
 
@@ -28,9 +28,12 @@ const bodyObserver = new MutationObserver(mutations => {
             }
             //raid
             if(options.raidAlert && mutation.target.data === '00:00') {
-                PlaySound(soundEvent, options.soundVolume);
-                notifyMe('IQ Alert!', 'Raid has returned')
-                console.log('Raid returned')
+                let source = document.getElementsByTagName('html')[0].innerHTML;
+                if(source.toLowerCase().includes("returned")){
+                    PlaySound(soundEvent, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Raid has returned')
+                    console.log('Raid returned')
+                }
             }
         }
 
@@ -60,8 +63,6 @@ const observerOptions = {
     childList: true,
     characterData: true
 };
-
-bodyObserver.observe(document.body, observerOptions);
 
 function notifyMe(title, text) {
     if(!desktopNotificationOnCooldown && options.desktopNotifications){
@@ -96,5 +97,6 @@ function PlaySound(sound, volume = null){
 }
 
 window.addEventListener("load", function(){
+    bodyObserver.observe(document.body, observerOptions);
     console.log('beans lel')
 });

@@ -10,6 +10,12 @@
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png" },
+  "web_accessible_resources": [
+    {
+      "resources": [ "auto.mp3", "boss.mp3", "event.mp3" ],
+      "matches": [ "https://www.iqrpg.com/*" ]
+    }
+  ],
   "permissions": [
     "storage"
   ],
@@ -21,7 +27,7 @@
     {
       "matches": ["https://*.iqrpg.com/*"],
       "js": ["iqalert.min.js"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ]
 }

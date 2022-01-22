@@ -51,7 +51,7 @@ const configs = browsers.map(browser => {
           }, null, '\t')),
         },
         {
-          from: path.join(kSourceDir, "*.+(html|png|css)").replace(/\\/g, "/"),
+          from: path.join(kSourceDir, "*.+(html|png|css|mp3)").replace(/\\/g, "/"),
           to: "[name][ext]",
         }]
       }),
