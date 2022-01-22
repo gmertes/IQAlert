@@ -1,3 +1,14 @@
+var soundVolume = .9;
+var autoAlertNumber = 10;
+var autoAlert = true
+var bossAlert = true
+var eventAlert = true
+var raidAlert = true
+var desktopNotifications = true
+var soundAuto = 'https://github.com/gmertes/IQAlert/raw/master/auto.mp3'
+var soundBoss = 'https://github.com/gmertes/IQAlert/raw/master/boss.mp3'
+var soundEvent = 'https://github.com/gmertes/IQAlert/raw/master/event.mp3'
+
 var desktopNotificationOnCooldown = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
