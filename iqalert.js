@@ -1,4 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////
 var desktopNotificationOnCooldown = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
@@ -24,12 +23,6 @@ const bodyObserver = new MutationObserver(mutations => {
             }
         }
 
-        // if(mutation.addedNodes.length > 0 &&
-        //     mutation.addedNodes[0].className !== "chat-msg" &&
-        //     mutation.target.className !== "log"){
-        //     console.log(mutation)
-        // }
-
         mutation.addedNodes.forEach(node => {
 
             if(node.className === "main-section"){
@@ -45,10 +38,6 @@ const bodyObserver = new MutationObserver(mutations => {
                     console.log('event lel')
                     PlaySound(soundEvent, soundVolume);
                     notifyMe('IQ Alert!', node.innerText.split('\n\n')[1])
-                }
-
-                if(node.innerHTML.includes("Returned")){
-                    console.log('return test')
                 }
             }
         });
@@ -96,5 +85,5 @@ function PlaySound(sound, volume = null){
 }
 
 window.addEventListener("load", function(){
-    console.log('beans - lel')
+    console.log('beans lel')
 });
