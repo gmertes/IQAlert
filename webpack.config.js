@@ -30,6 +30,7 @@ const configs = browsers.map(browser => {
 
     entry: {
       iqalert: path.join(kSourceDir, 'iqalert.js'),
+      options: path.join(kSourceDir, 'options.js'),
     },
     output: {
       path: buildDir,
@@ -50,7 +51,7 @@ const configs = browsers.map(browser => {
           }, null, '\t')),
         },
         {
-          from: path.join(kSourceDir, "*.png").replace(/\\/g, "/"),
+          from: path.join(kSourceDir, "*.+(html|png|css)").replace(/\\/g, "/"),
           to: "[name][ext]",
         }]
       }),

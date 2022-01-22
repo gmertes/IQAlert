@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>IQAlert options</title></head>
+<body>
+<h3>IQAlert options </h3>
+
+Volume:
+<input type="range" min="1" max="10" class="slider" id="soundVolume">
+</br>
+Auto alert number:
+<input type="number" style="width: 3.5em" id="autoAlertNumber" >
+
+</br>
+<input type="checkbox" id="autoAlert">
+Auto Alert
+</br>
+<input type="checkbox" id="bossAlert">
+Boss Alert
+</br>
+<input type="checkbox" id="eventAlert">
+Event Alert
+</br>
+<input type="checkbox" id="raidAlert">
+Raid Alert
+</br>
+<input type="checkbox" id="desktopNotifications">
+Enable desktop notifications
+
+<p>
+    <div id="status"></div>
+    <button id="save">Save</button>
+</p>
+
+<script src="options.min.js"></script>
+</body>
+</html>

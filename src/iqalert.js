@@ -1,10 +1,10 @@
-var soundVolume = .9;
-var autoAlertNumber = 10;
-var autoAlert = true
-var bossAlert = true
-var eventAlert = true
-var raidAlert = true
-var desktopNotifications = true
+import { readLocalStorage } from './option_functions.js';
+var options
+async function set_options(){
+    options = await readLocalStorage();
+}
+set_options()
+
 var soundAuto = 'https://github.com/gmertes/IQAlert/raw/master/auto.mp3'
 var soundBoss = 'https://github.com/gmertes/IQAlert/raw/master/boss.mp3'
 var soundEvent = 'https://github.com/gmertes/IQAlert/raw/master/event.mp3'
@@ -17,19 +17,19 @@ const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if(mutation.type === "characterData"){
             //autos
-            if(autoAlert && mutation.target.parentNode.className === "action-timer__text"){
+            if(options.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
                 var autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
-                if((autosRemaining <= autoAlertNumber && autosRemaining > 0 && autoAlertNumber )) {
-                    if (autosRemaining === autoAlertNumber) {
-                        notifyMe('IQ Alert!', 'You have ' + autoAlertNumber + ' remaining!');
+                if((autosRemaining <= options.autoAlertNumber && autosRemaining > 0 && options.autoAlertNumber )) {
+                    if (autosRemaining === options.autoAlertNumber) {
+                        notifyMe('IQ Auto Alert!', 'You have ' + options.autoAlertNumber + ' autos remaining!');
                     }
-                    PlaySound(soundAuto, soundVolume);
+                    PlaySound(soundAuto, options.soundVolume);
                 }
             }
             //raid
-            if(raidAlert && mutation.target.data === '00:00') {
-                PlaySound(soundEvent, soundVolume);
-                notifyMe('IQ Alert!', 'Raid has returned lel')
+            if(options.raidAlert && mutation.target.data === '00:00') {
+                PlaySound(soundEvent, options.soundVolume);
+                notifyMe('IQ Alert!', 'Raid has returned')
                 console.log('Raid returned')
             }
         }
@@ -38,16 +38,16 @@ const bodyObserver = new MutationObserver(mutations => {
 
             if(node.className === "main-section"){
                 //boss
-                if(bossAlert && node.innerHTML.includes("boss-container")){
+                if(options.bossAlert && node.innerHTML.includes("boss-container")){
                     console.log('boss lel')
-                    PlaySound(soundBoss, soundVolume);
+                    PlaySound(soundBoss, options.soundVolume);
                     notifyMe('IQ Bean Alert!', 'BOSS!')
                 }
 
                 //event
-                if(eventAlert && node.innerHTML.includes("Event")){
+                if(options.eventAlert && node.innerHTML.includes("Event")){
                     console.log('event lel')
-                    PlaySound(soundEvent, soundVolume);
+                    PlaySound(soundEvent, options.soundVolume);
                     notifyMe('IQ Alert!', node.innerText.split('\n\n')[1])
                 }
             }
@@ -64,7 +64,7 @@ const observerOptions = {
 bodyObserver.observe(document.body, observerOptions);
 
 function notifyMe(title, text) {
-    if(!desktopNotificationOnCooldown && desktopNotifications){
+    if(!desktopNotificationOnCooldown && options.desktopNotifications){
         desktopNotificationOnCooldown = true;
         setTimeout(()=>{ desktopNotificationOnCooldown = false; }, 7000);
         var notification;

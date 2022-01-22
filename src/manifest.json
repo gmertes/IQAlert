@@ -2,13 +2,18 @@
   "manifest_version": 2,
   "name": "IQAlert",
   "description": "Sounds and notifications for Idle Quest RPG",
+  "options_page": "options.html",
+  "browser_action": {
+    "default_popup": "options.html"
+  },
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png" },
   "permissions": [
     "https://www.iqrpg.com/*",
-    "https://iqrpg.com/*"
+    "https://iqrpg.com/*",
+    "storage"
   ],
   "content_scripts": [
     {
