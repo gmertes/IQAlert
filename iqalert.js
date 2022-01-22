@@ -95,5 +95,7 @@ function PlaySound(sound, volume = null){
     audio.play();
 }
 
-console.log('beans lel')
-notifyMe('IQAlert loaded', 'beans lel');
+window.addEventListener("load", function(){
+    console.log('beans - lel')
+    notifyMe('IQAlert loaded', 'beans lel');
+});
