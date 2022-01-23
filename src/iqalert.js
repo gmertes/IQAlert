@@ -8,6 +8,7 @@ set_options()
 var soundAuto = chrome.runtime.getURL("auto.mp3")
 var soundBoss = chrome.runtime.getURL("boss.mp3")
 var soundEvent = chrome.runtime.getURL("event.mp3")
+var soundDone =  chrome.runtime.getURL("beep.mp3")
 
 var desktopNotificationOnCooldown = false
 
@@ -15,11 +16,12 @@ if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
 const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
+
         if(mutation.type === "characterData"){
             //autos
             if(options.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
                 var autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
-                if((autosRemaining <= options.autoAlertNumber && autosRemaining > 0 && options.autoAlertNumber )) {
+                if((autosRemaining <= options.autoAlertNumber && autosRemaining > 0)) {
                     if (autosRemaining === options.autoAlertNumber) {
                         notifyMe('IQ Auto Alert!', 'You have ' + options.autoAlertNumber + ' autos remaining!');
                     }
@@ -27,30 +29,88 @@ const bodyObserver = new MutationObserver(mutations => {
                 }
             }
             //raid
-            if(options.raidAlert && mutation.target.data === '00:00') {
-                let source = document.getElementsByTagName('html')[0].innerHTML.toLowerCase();
-                if(source.includes("raid") && source.includes("returned")){
-                    PlaySound(soundEvent, options.soundVolume);
-                    notifyMe('IQ Alert!', 'Raid has returned')
-                    console.log('Raid returned')
-                }
+            // if(options.raidAlert && mutation.target.data === '00:00') {
+            //     setTimeout(function() {
+            //         let source = document.getElementsByTagName('html')[0].innerHTML.toLowerCase();
+            //         if(source.includes("raid") && source.includes("returned")){
+            //             PlaySound(soundEvent, options.soundVolume);
+            //             notifyMe('IQ Alert!', 'Raid has returned')
+            //             console.log('Raid returned lel')
+            //         }
+            //     }, 2000);
+            // }
+        }else{
+            if(!mutation.target.className.includes('progress')
+                && !mutation.target.className.includes('popup')
+            ){
+                //console.log(mutation)
             }
         }
 
         mutation.addedNodes.forEach(node => {
             if(node.className === "main-section"){
+                let item = node.innerHTML.toLowerCase()
                 //boss
-                if(options.bossAlert && node.innerHTML.includes("boss-container")){
+                if(options.bossAlert && item.includes("boss-container")){
                     console.log('boss lel')
                     PlaySound(soundBoss, options.soundVolume);
-                    notifyMe('IQ Bean Alert!', 'BOSS!')
+                    notifyMe('IQ Bean Alert!', 'BOSS! D:')
                 }
 
                 //event
-                if(options.eventAlert && node.innerHTML.includes("Event")){
+                if(options.eventAlert && item.includes("event")){
                     console.log('event lel')
                     PlaySound(soundEvent, options.soundVolume);
-                    notifyMe('IQ Alert!', node.innerText.split('\n\n')[1])
+                    notifyMe('IQ Event!', node.innerText.split('\n\n')[1].split('\n')[0])
+                }
+
+                //bonus
+                if(options.bonusAlert && item.includes("bonus")){
+                    console.log('bonus lel')
+                    PlaySound(soundEvent, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Bonus! 🥳')
+                }
+            }
+
+            //raid return
+            if(node.parentNode.className === "flex space-between"){
+                if(node.innerText.toLowerCase() === "returned"){
+                    PlaySound(soundDone, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Raid has returned 😎')
+                    console.log('Raid returned kek')
+                }
+            }
+
+            //return test
+            // try{
+            //     let item = node.innerHTML.toLowerCase()
+            //     if(item.includes("returned")){
+            //         console.log('return added')
+            //         console.log(node)
+            //     }
+            // }catch{}
+
+        });
+
+        mutation.removedNodes.forEach(node => {
+            if(node.className === "main-section"){
+                let item = node.innerHTML.toLowerCase()
+                if(options.eventAlertDone && item.includes("event")){
+                    console.log('event over')
+                    PlaySound(soundDone, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Event finished.')
+                }
+
+                if(options.bonusAlertDone && item.includes("bonus")){
+                    console.log('bonus over')
+                    PlaySound(soundDone, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Bonus finished (or extended).')
+                }
+
+                if(options.bossAlertDone && item.includes("boss-container")){
+                    console.log('boss over')
+                    PlaySound(soundDone, options.soundVolume);
+                    notifyMe('IQ Alert!', 'Boss defeated.')
                 }
             }
         });

@@ -1,34 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head><title>IQAlert options</title></head>
+<head><title>IQAlert options</title>
+<style>
+    html, body {
+        width: 300px;
+        background-color: #ffe7f8
+    }
+</style>
+</head>
 <body>
-<h3>IQAlert options </h3>
+<h3 style="color: #8800ff" id="version">IQAlert %v <br><span style="font-size: small">By Dr. Swaggy</span></h3>
 
-Volume:
+Alert volume:
 <input type="range" min="1" max="10" class="slider" id="soundVolume">
 </br>
 Auto alert number:
 <input type="number" style="width: 3.5em" id="autoAlertNumber" >
 
-</br>
-<input type="checkbox" id="autoAlert">
-Auto Alert
-</br>
-<input type="checkbox" id="bossAlert">
-Boss Alert
-</br>
-<input type="checkbox" id="eventAlert">
-Event Alert
-</br>
-<input type="checkbox" id="raidAlert">
-Raid Alert
-</br>
-<input type="checkbox" id="desktopNotifications">
-Enable desktop notifications
+<p>
+<table>
+    <caption><b style="color: #f300ff">Alerts:</b></caption>
+    <tr>
+        <td><input type="checkbox" id="autoAlert">
+            Autos remaining</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" id="raidAlert">
+            Raid returned</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" id="bossAlert"> Boss start</td>
+        <td><input type="checkbox" id="bossAlertDone"> Boss defeated</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" id="bonusAlert"> Bonus start</td>
+        <td><input type="checkbox" id="bonusAlertDone"> Bonus finished</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" id="eventAlert"> Event start</td>
+        <td><input type="checkbox" id="eventAlertDone"> Event finished</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox" id="desktopNotifications"> Desktop notifications
+        </td>
+    </tr>
+</table>
+</p>
 
 <p>
-    <div id="status"></div>
-    <button id="save">Save</button>
+    <button id="save" style="color: #5d2700; font-weight: bold">Save</button>
+    <div id="status" style="color: #490034"></div>
 </p>
 
 <script src="options.min.js"></script>
