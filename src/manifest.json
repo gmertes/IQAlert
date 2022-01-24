@@ -12,7 +12,7 @@
     "128": "icon128.png" },
   "web_accessible_resources": [
     {
-      "resources": [ "auto.mp3", "boss.mp3", "event.mp3", "beep.mp3" ],
+      "resources": [ "auto.mp3", "boss.mp3", "event.mp3", "beep.mp3", "icon128.png" ],
       "matches": [ "https://www.iqrpg.com/*" ]
     }
   ],

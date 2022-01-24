@@ -100,12 +100,12 @@ function notifyMe(title, text) {
             alert("This browser does not support desktop notification");
         }
         else if (Notification.permission === "granted") {
-            notification = new Notification(title, { body: text });
+            notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
         }
         else if (Notification.permission !== "denied") {
             Notification.requestPermission().then(function (permission) {
                 if (permission === "granted") {
-                    notification = new Notification(title, { body: text });
+                    notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
                 }
             });
         }
