@@ -1,6 +1,6 @@
-import { readLocalStorage } from './option_functions.js';
+import { readOptions } from './option_functions.js';
 
-export function save_options() {
+function save_options() {
     chrome.storage.sync.set({
         soundVolume: document.getElementById('soundVolume').value/10,
         autoAlertNumber: parseInt(document.getElementById('autoAlertNumber').value),
@@ -23,20 +23,21 @@ export function save_options() {
     });
 }
 
-async function set_options(){
+function set_options(){
     document.getElementById('version').innerHTML = document.getElementById('version').innerHTML.replace("%v", "v" + VERSION)
-    var options = await readLocalStorage();
-    document.getElementById('soundVolume').value = options.soundVolume*10;
-    document.getElementById('autoAlertNumber').value = options.autoAlertNumber;
-    document.getElementById('autoAlert').checked = options.autoAlert;
-    document.getElementById('bossAlert').checked = options.bossAlert;
-    document.getElementById('bossAlertDone').checked = options.bossAlertDone;
-    document.getElementById('eventAlert').checked = options.eventAlert;
-    document.getElementById('eventAlertDone').checked = options.eventAlertDone;
-    document.getElementById('bonusAlert').checked = options.bonusAlert;
-    document.getElementById('bonusAlertDone').checked = options.bonusAlertDone;
-    document.getElementById('raidAlert').checked = options.raidAlert;
-    document.getElementById('desktopNotifications').checked = options.desktopNotifications;
+    readOptions().then(options => {
+        document.getElementById('soundVolume').value = options.soundVolume*10;
+        document.getElementById('autoAlertNumber').value = options.autoAlertNumber;
+        document.getElementById('autoAlert').checked = options.autoAlert;
+        document.getElementById('bossAlert').checked = options.bossAlert;
+        document.getElementById('bossAlertDone').checked = options.bossAlertDone;
+        document.getElementById('eventAlert').checked = options.eventAlert;
+        document.getElementById('eventAlertDone').checked = options.eventAlertDone;
+        document.getElementById('bonusAlert').checked = options.bonusAlert;
+        document.getElementById('bonusAlertDone').checked = options.bonusAlertDone;
+        document.getElementById('raidAlert').checked = options.raidAlert;
+        document.getElementById('desktopNotifications').checked = options.desktopNotifications;
+    })
 }
 
 document.addEventListener('DOMContentLoaded', set_options);

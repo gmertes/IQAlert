@@ -1,4 +1,4 @@
-export const readLocalStorage = async () => {
+export function readOptions () {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({
             soundVolume: .7,
@@ -12,8 +12,8 @@ export const readLocalStorage = async () => {
             bossAlertDone: false,
             eventAlertDone: false,
             desktopNotifications: true,
-        }, function (result) {
-            resolve(result);
+        }, function (options) {
+            resolve(options);
         });
     });
 };
