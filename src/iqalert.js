@@ -32,7 +32,7 @@ const bodyObserver = new MutationObserver(mutations => {
                 if(options.bossAlert && item.includes("boss-container")){
                     console.log('boss lel')
                     playSound(soundBoss, options.soundVolume);
-                    notifyMe('IQ Bean Alert!', 'BOSS! D:')
+                    notifyMe('IQ Bean Alert!', 'BOSS! 🤠')
                 }
 
                 //event
