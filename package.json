@@ -2,7 +2,7 @@
   "name": "IQAlert",
   "description": "Sounds and notifications for Idle Quest RPG",
   "author": "Gert Mertes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "private": true,
   "scripts": {
