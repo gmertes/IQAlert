@@ -9,6 +9,13 @@ var options, desktopNotificationOnCooldown = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
+const prefix = 'IQ Alert>';
+const console = {
+    log: (...args) => window.console.log(prefix, ...args),
+    warn: (...args) => window.console.warn(prefix, ...args),
+    error: (...args) => window.console.error(prefix, ...args),
+};
+
 const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
 
@@ -30,23 +37,23 @@ const bodyObserver = new MutationObserver(mutations => {
                 let item = node.innerHTML.toLowerCase()
                 //boss
                 if(options.bossAlert && item.includes("boss-container")){
-                    console.log('boss lel')
+                    console.log('boss')
                     playSound(soundBoss, options.soundVolume);
-                    notifyMe('IQ Bean Alert!', 'BOSS! 🤠')
+                    notifyMe('IQ Alert!', 'BOSS! 🤠')
                 }
 
                 //event
                 if(options.eventAlert && item.includes("event")){
-                    console.log('event lel')
+                    console.log('event')
                     playSound(soundEvent, options.soundVolume);
                     notifyMe('IQ Event!', node.innerText.split('\n\n')[1].split('\n')[0])
                 }
 
                 //bonus
                 if(options.bonusAlert && item.includes("bonus")){
-                    console.log('bonus lel')
+                    console.log('bonus')
                     playSound(soundEvent, options.soundVolume);
-                    notifyMe('IQ Alert!', 'Bonus! 🥳')
+                    notifyMe('IQ Alert!', 'Bonus time! 🥳')
                 }
             }
 
@@ -127,6 +134,6 @@ window.addEventListener("load", function(){
     readOptions().then(value => {
         options = value
         bodyObserver.observe(document.body, observerOptions);
-        console.log('beans lel')
+        console.log('v' + VERSION + ' loaded')
     })
 });
