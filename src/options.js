@@ -24,7 +24,7 @@ function save_options() {
 }
 
 function set_options(){
-    document.getElementById('version').innerHTML = document.getElementById('version').innerHTML.replace("%v", "v" + VERSION)
+    document.getElementById('version').innerHTML = "v" + VERSION
     readOptions().then(options => {
         document.getElementById('soundVolume').value = options.soundVolume*10;
         document.getElementById('autoAlertNumber').value = options.autoAlertNumber;
