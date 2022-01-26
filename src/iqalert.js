@@ -58,7 +58,7 @@ const bodyObserver = new MutationObserver(mutations => {
             }
 
             //raid return
-            if(node.parentNode.className === "flex space-between"){
+            if(options.raidAlert && node.parentNode.className === "flex space-between"){
                 if(node.innerText.toLowerCase() === "returned"){
                     playSound(soundDone, options.soundVolume);
                     notifyMe('IQ Alert!', 'Raid has returned 😎')
