@@ -49,7 +49,7 @@ const bodyObserver = new MutationObserver(mutations => {
                 }
 
                 //bonus
-                if(options.bonusAlert && item.includes("bonus")){
+                if(options.bonusAlert && item.includes("bonus exp")){
                     console.log('bonus')
                     playSound(soundEvent, options.soundVolume);
                     notifyMe('IQ Alert!', 'Bonus time! 🥳')
@@ -85,7 +85,7 @@ const bodyObserver = new MutationObserver(mutations => {
                     notifyMe('IQ Alert!', 'Event finished.')
                 }
 
-                if(options.bonusAlertDone && item.includes("bonus")){
+                if(options.bonusAlertDone && item.includes("bonus exp")){
                     console.log('bonus over')
                     playSound(soundDone, options.soundVolume);
                     notifyMe('IQ Alert!', 'Bonus finished (or extended).')
