@@ -18,7 +18,6 @@ const console = {
 
 const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
-
         if(mutation.type === "characterData"){
             //autos
             if(options.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
@@ -36,7 +35,7 @@ const bodyObserver = new MutationObserver(mutations => {
             if(node.className === "main-section"){
                 let item = node.innerHTML.toLowerCase()
                 //boss
-                if(options.bossAlert && item.includes("boss-container")){
+                if(options.bossAlert && item.includes("clickable") && item.includes("boss")){
                     console.log('boss')
                     playSound(soundBoss, options.soundVolume);
                     notifyMe('IQ Alert!', 'BOSS! 🤠')
@@ -58,11 +57,21 @@ const bodyObserver = new MutationObserver(mutations => {
             }
 
             //raid return
-            if(options.raidAlert && node.parentNode.className === "flex space-between"){
+            if(options.raidAlert && node.parentNode.className.includes("space-between")){
                 if(node.innerText.toLowerCase() === "returned"){
                     playSound(soundDone, options.soundVolume);
                     notifyMe('IQ Alert!', 'Raid has returned 😎')
                     console.log('Raid returned kek')
+                }
+            }
+
+            if(node.className === "notification"){
+                let item = node.innerText
+                //gathering bonus
+                if(options.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
+                    playSound(soundEvent, options.soundVolume);
+                    notifyMe('IQ Gathering Bonus! ⛏', item)
+                    console.log('gathering event: ' + item)
                 }
             }
         });
@@ -133,7 +142,11 @@ function playSound(sound, volume = 0.7){
 window.addEventListener("load", function(){
     readOptions().then(value => {
         options = value
-        bodyObserver.observe(document.body, observerOptions);
-        console.log('v' + VERSION + ' loaded')
+        setTimeout(() => {
+            // add timeout to skip past events when IQ is first loaded
+            bodyObserver.observe(document.body, observerOptions)
+            console.log('v' + VERSION + ' loaded')
+        }, 2500);
+
     })
 });
