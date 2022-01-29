@@ -1,18 +1,18 @@
 import { readOptions } from './option_functions.js';
 
-var soundAuto = chrome.runtime.getURL("auto.mp3")
-var soundBoss = chrome.runtime.getURL("boss.mp3")
-var soundEvent = chrome.runtime.getURL("event.mp3")
-var soundDone =  chrome.runtime.getURL("beep.mp3")
+const soundAuto = chrome.runtime.getURL("auto.mp3")
+const soundBoss = chrome.runtime.getURL("boss.mp3")
+const soundEvent = chrome.runtime.getURL("event.mp3")
+const soundDone =  chrome.runtime.getURL("beep.mp3")
 
-var options, desktopNotificationOnCooldown = false
+let gOptions, gDesktopNotificationOnCooldown = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
 const prefix = 'IQ Alert>';
 const console = {
     log: (...args) => window.console.log(prefix, ...args),
-    debug: (...args) => {if(DEBUG) window.console.log(prefix, ...args)},
+    debug: (...args) => {if(DEBUG) window.console.log(prefix + "debug>", ...args)},
     warn: (...args) => window.console.warn(prefix, ...args),
     error: (...args) => window.console.error(prefix, ...args),
 };
@@ -22,13 +22,13 @@ const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if(mutation.type === "characterData"){
             //autos
-            if(options.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
-                var autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
-                if((autosRemaining <= options.autoAlertNumber && autosRemaining > 0)) {
-                    if (autosRemaining === options.autoAlertNumber) {
-                        notifyMe('IQ Auto Alert!', 'You have ' + options.autoAlertNumber + ' autos remaining!');
+            if(gOptions.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
+                let autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
+                if((autosRemaining <= gOptions.autoAlertNumber && autosRemaining > 0)) {
+                    if (autosRemaining === gOptions.autoAlertNumber) {
+                        notifyMe('IQ Auto Alert!', 'You have ' + gOptions.autoAlertNumber + ' autos remaining!');
                     }
-                    playSound(soundAuto, options.soundVolume);
+                    playSound(soundAuto, gOptions.soundVolume);
                 }
             }
         }
@@ -37,31 +37,31 @@ const bodyObserver = new MutationObserver(mutations => {
             if(node.className === "main-section"){
                 let item = node.innerHTML.toLowerCase()
                 //boss
-                if(options.bossAlert && item.includes("clickable") && item.includes("boss")){
+                if(gOptions.bossAlert && item.includes("clickable") && item.includes("boss")){
                     console.log('boss')
-                    playSound(soundBoss, options.soundVolume);
+                    playSound(soundBoss, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'BOSS! 🤠')
                 }
 
                 //event
-                if(options.eventAlert && item.includes("event")){
+                if(gOptions.eventAlert && item.includes("event")){
                     console.log('event')
-                    playSound(soundEvent, options.soundVolume);
+                    playSound(soundEvent, gOptions.soundVolume);
                     notifyMe('IQ Event!', node.innerText.split('\n\n')[1].split('\n')[0])
                 }
 
                 //bonus
-                if(options.bonusAlert && item.includes("bonus exp")){
+                if(gOptions.bonusAlert && item.includes("bonus exp")){
                     console.log('bonus')
-                    playSound(soundEvent, options.soundVolume);
+                    playSound(soundEvent, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'Bonus time! 🥳')
                 }
             }
 
             //raid return
-            if(options.raidAlert && node.parentNode.className.includes("space-between")){
-                if(node.innerText.toLowerCase() === "returned"){
-                    playSound(soundDone, options.soundVolume);
+            if(!gStartDelay && node.parentNode.className.includes("space-between")){
+                if(gOptions.raidAlert && node.innerText.toLowerCase() === "returned"){
+                    playSound(soundDone, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'Raid has returned 😎')
                     console.log('Raid returned kek')
                 }
@@ -70,8 +70,8 @@ const bodyObserver = new MutationObserver(mutations => {
             if(node.className === "notification"){
                 let item = node.innerText
                 //gathering bonus
-                if(options.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
-                    playSound(soundEvent, options.soundVolume);
+                if(gOptions.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
+                    playSound(soundEvent, gOptions.soundVolume);
                     notifyMe('IQ Gathering Bonus! ⛏', item)
                     console.log('gathering event: ' + item)
                 }
@@ -81,21 +81,21 @@ const bodyObserver = new MutationObserver(mutations => {
         mutation.removedNodes.forEach(node => {
             if(node.className === "main-section"){
                 let item = node.innerHTML.toLowerCase()
-                if(options.eventAlertDone && item.includes("event")){
+                if(gOptions.eventAlertDone && item.includes("event")){
                     console.log('event over')
-                    playSound(soundDone, options.soundVolume);
+                    playSound(soundDone, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'Event finished.')
                 }
 
-                if(options.bonusAlertDone && item.includes("bonus exp")){
+                if(gOptions.bonusAlertDone && item.includes("bonus exp")){
                     console.log('bonus over')
-                    playSound(soundDone, options.soundVolume);
+                    playSound(soundDone, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'Bonus finished (or extended).')
                 }
 
-                if(options.bossAlertDone && item.includes("boss-container")){
+                if(gOptions.bossAlertDone && item.includes("boss-container")){
                     console.log('boss over')
-                    playSound(soundDone, options.soundVolume);
+                    playSound(soundDone, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'Boss defeated.')
                 }
             }
@@ -110,10 +110,10 @@ const observerOptions = {
 };
 
 function notifyMe(title, text) {
-    if(!desktopNotificationOnCooldown && options.desktopNotifications){
-        desktopNotificationOnCooldown = true;
-        setTimeout(()=>{ desktopNotificationOnCooldown = false; }, 7000);
-        var notification;
+    if(!gDesktopNotificationOnCooldown && gOptions.desktopNotifications){
+        gDesktopNotificationOnCooldown = true;
+        setTimeout(()=>{ gDesktopNotificationOnCooldown = false; }, 7000);
+        let notification;
         if (!("Notification" in window)) {
             alert("This browser does not support desktop notification");
         }
@@ -136,14 +136,14 @@ function notifyMe(title, text) {
 }
 
 function playSound(sound, volume = 0.7){
-    var audio = new Audio(sound);
+    let audio = new Audio(sound);
     audio.volume = volume;
     audio.play();
 }
 
 window.addEventListener("load", function(){
     readOptions().then(value => {
-        options = value
+        gOptions = value
         setTimeout(() => {
             // add timeout to skip past events when IQ is first loaded
             bodyObserver.observe(document.body, observerOptions)
