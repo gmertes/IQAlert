@@ -12,11 +12,13 @@ if (Notification.permission !== "denied") { Notification.requestPermission(); }
 const prefix = 'IQ Alert>';
 const console = {
     log: (...args) => window.console.log(prefix, ...args),
+    debug: (...args) => {if(DEBUG) window.console.log(prefix, ...args)},
     warn: (...args) => window.console.warn(prefix, ...args),
     error: (...args) => window.console.error(prefix, ...args),
 };
 
 const bodyObserver = new MutationObserver(mutations => {
+    //console.debug(mutations)
     mutations.forEach(mutation => {
         if(mutation.type === "characterData"){
             //autos
