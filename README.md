@@ -1,5 +1,6 @@
 IQ Alert
 ===============
+![Chrome users](https://img.shields.io/chrome-web-store/users/nhjapojbdgmjlnmlenegefgfjannjchb?label=Chrome%20users) 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate?business=5GY9A82PFY38W&no_recurring=1&currency_code=EUR)
 
 A Chrome extension that adds sound alerts and desktop notifications for game events 
@@ -7,14 +8,15 @@ in [Idle Quest RPG](https://www.iqrpg.com/).
 
 [<img src="https://user-images.githubusercontent.com/13658335/138092194-303708fb-9a4e-4e3f-a1dc-74baff1e45c9.png" height="59"/>](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb)
 
-Features:
+Features
 ------------
 - Unique sound alerts for: raid returns, bosses, events, bonus effects.
 - Auto alert: a beeping sound when your autos are about to run out
+- Clan events: get notified of Clan events like clan bosses or donations (**Note:** for now this only works when the Clan chat channel is left open)
 - Volume and individual alerts can be enabled/disabled in the option page (by clicking on the extension icon)
 - Desktop notifications
 
-Installation:
+Installation
 --
 Get the extension from the [Chrome store](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb).
 
