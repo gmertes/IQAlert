@@ -3,54 +3,100 @@
 <head><title>IQAlert options</title>
 <style>
     html, body {
-        width: 290px;
+        width: 250px;
         background-color: #ffe7f8;
+    }
+
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        font-size: 75%;
+    }
+
+    .info-clanalert{
+        text-align: left;
+        position: relative;
+    }
+
+    .info-clanalert span {
+        visibility: hidden;
+        width: 120px;
+        background-color: #e9adee;
+        color: #000000;
+        border-width: 1px;
+        border-color: #555;
+        border-style: solid;
+        text-align: center;
+        border-radius: 6px;
+        padding: 4px 2px;
+        position: absolute;
+        z-index: 1;
+        top: -20%;
+        left: 105%;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    .info-clanalert span::after {
+        content: "";
+        position: absolute;
+        bottom: 50%;
+        left: 0%;
+        margin-left: -10px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent #555 transparent transparent;
+    }
+
+    .info-clanalert:hover span{
+        visibility: visible;
+        opacity: 1;
     }
 </style>
 </head>
 <body>
 <h3 style="color: #8800ff">IQ Alert<br><span style="font-size: small" id="version"></span></h3>
-
-Alert volume:
-<input type="range" min="1" max="10" class="slider" id="soundVolume">
-</br>
-Auto alert number:
-<input type="number" style="width: 3.5em" id="autoAlertNumber" >
-
+<table>
+    <caption><b style="color: #f300ff">General settings</b></caption>
+    <tr>
+        <td>Alert volume: <input type="range" min="1" max="10" class="slider" id="soundVolume"></td>
+    </tr>
+    <tr>
+        <td>Auto alert threshold: <input type="number" style="width: 3.0em" id="autoAlertNumber"> autos</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox" id="desktopNotifications">Desktop notifications</td>
+    </tr>
+</table>
 <p>
 <table>
-    <caption><b style="color: #f300ff">Alerts:</b></caption>
+    <caption><b style="color: #f300ff">Enabled alerts</b></caption>
     <tr>
-        <td><input type="checkbox" id="autoAlert">
-            Autos remaining</td>
+        <td colspan="2"><input type="checkbox" id="autoAlert">Autos below threshold</td>
     </tr>
     <tr>
-        <td><input type="checkbox" id="raidAlert">
-            Raid returned</td>
+        <td><input type="checkbox" id="raidAlert">Raid returned</td>
     </tr>
     <tr>
-        <td><input type="checkbox" id="bossAlert"> Boss start</td>
-        <td><input type="checkbox" id="bossAlertDone"> Boss defeated</td>
+        <td><div class="info-clanalert"><input type="checkbox" id="clanAlert">Clan events &#x1F6C8; <span>Requires the Clan chat to be left open.</span></div></td>
     </tr>
     <tr>
-        <td><input type="checkbox" id="bonusAlert"> Bonus start</td>
-        <td><input type="checkbox" id="bonusAlertDone"> Bonus finished</td>
+        <td><input type="checkbox" id="bossAlert">Boss start</td>
+        <td><input type="checkbox" id="bossAlertDone">Boss defeated</td>
     </tr>
     <tr>
-        <td><input type="checkbox" id="eventAlert"> Event start</td>
-        <td><input type="checkbox" id="eventAlertDone"> Event finished</td>
+        <td><input type="checkbox" id="bonusAlert">Bonus start</td>
+        <td><input type="checkbox" id="bonusAlertDone">Bonus finished</td>
     </tr>
     <tr>
-        <td>
-            <input type="checkbox" id="desktopNotifications"> Desktop notifications
-        </td>
+        <td><input type="checkbox" id="eventAlert">Event start</td>
+        <td><input type="checkbox" id="eventAlertDone">Event finished</td>
     </tr>
 </table>
 </p>
 
 <p>
     <button id="save" style="color: #5d2700; font-weight: bold">Save</button>
-    <div id="status" style="color: #490034"></div>
+    <div id="status" style="color: #2a001e; font-weight: bold"></div>
 </p>
 
 <script src="options.min.js"></script>

@@ -12,6 +12,7 @@ function save_options() {
         bonusAlert: document.getElementById('bonusAlert').checked,
         bonusAlertDone: document.getElementById('bonusAlertDone').checked,
         raidAlert: document.getElementById('raidAlert').checked,
+        clanAlert: document.getElementById('clanAlert').checked,
         desktopNotifications: document.getElementById('desktopNotifications').checked,
     }, function() {
         // Update status to let user know options were saved.
@@ -36,6 +37,7 @@ function set_options(){
         document.getElementById('bonusAlert').checked = options.bonusAlert;
         document.getElementById('bonusAlertDone').checked = options.bonusAlertDone;
         document.getElementById('raidAlert').checked = options.raidAlert;
+        document.getElementById('clanAlert').checked = options.clanAlert;
         document.getElementById('desktopNotifications').checked = options.desktopNotifications;
     })
 }

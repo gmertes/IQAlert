@@ -5,7 +5,8 @@ const soundBoss = chrome.runtime.getURL("boss.mp3")
 const soundEvent = chrome.runtime.getURL("event.mp3")
 const soundDone =  chrome.runtime.getURL("beep.mp3")
 
-let gOptions, gDesktopNotificationOnCooldown = false
+let gOptions, gEventManager
+let gDesktopNotificationOnCooldown = false, gStartDelay = true, gFirstClanLoad = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
@@ -16,6 +17,24 @@ const console = {
     warn: (...args) => window.console.warn(prefix, ...args),
     error: (...args) => window.console.error(prefix, ...args),
 };
+
+class EventManager{
+    constructor() {
+        this.clanEvents = new Map()
+    }
+
+    newClanEvent(timestamp, msg){
+        // return true if the combination of timestamp and msg is a new event, false if it has already been seen
+        if(this.clanEvents.get(timestamp) === msg){
+            console.debug("Event already in map", timestamp, msg)
+            return false
+        }else{
+            this.clanEvents.set(timestamp, msg)
+            console.debug("Event added to map", timestamp, msg)
+            return true
+        }
+    }
+}
 
 const bodyObserver = new MutationObserver(mutations => {
     //console.debug(mutations)
@@ -29,6 +48,25 @@ const bodyObserver = new MutationObserver(mutations => {
                         notifyMe('IQ Auto Alert!', 'You have ' + gOptions.autoAlertNumber + ' autos remaining!');
                     }
                     playSound(soundAuto, gOptions.soundVolume);
+                }
+            }
+        }
+
+        if(mutation.type === "attributes"){
+            const cname = mutation.target.className
+            const chan = mutation.target.innerText
+            // first time opening clan channel timeout
+            if(cname && chan){
+                if(cname.toLowerCase().includes("active-channel") && chan.toLowerCase() === "clan"){
+                    // gFirstClanLoad prevents notifications when clan tab is first opened
+                    gFirstClanLoad = true
+                    console.debug('Clan tab opened.')
+                    setTimeout(() => {
+                        if(gFirstClanLoad){
+                            gFirstClanLoad = false
+                            console.debug('Clan timeout complete.')
+                        }
+                    }, 1000);
                 }
             }
         }
@@ -67,13 +105,36 @@ const bodyObserver = new MutationObserver(mutations => {
                 }
             }
 
-            if(node.className === "notification"){
+            if(!gStartDelay && node.className === "notification"){
                 let item = node.innerText
                 //gathering bonus
                 if(gOptions.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
                     playSound(soundEvent, gOptions.soundVolume);
                     notifyMe('IQ Gathering Bonus! ⛏', item)
                     console.log('gathering event: ' + item)
+                }
+            }
+            // clan alerts
+            if(node.className === "chat-msg-clan-global"){
+                //Examples:
+                //chat-msg: [09:46:55] Peasant Nickname: message
+                //chat-msg-clan-global: [12:07:18] Clan: Nickname received a Clan Resource Rush of 26,565 \n\n[Wood]\n\n.
+
+                // First time we open the Clan tab we get historic events. gFirstClanLoad flag is used so that we fill the map
+                // with these events without triggering alerts. After the flag is cleared, we start generating
+                // alerts for new events.
+                const match = node.innerText.match(/\[(.*?)\]/g)
+                if(match){
+                    const timestamp = match[0].replace("[", "").replace("]", "")
+                    const msg = node.innerText.split(":")[3].replaceAll("\n","").trim()
+
+                    if(gOptions.clanAlert && gEventManager.newClanEvent(timestamp, msg)){
+                        if(!gFirstClanLoad){
+                            playSound(soundDone, gOptions.soundVolume)
+                            notifyMe('IQ Clan Alert', msg)
+                            console.log('Clan alert: ', msg)
+                        }
+                    }
                 }
             }
         });
@@ -142,13 +203,15 @@ function playSound(sound, volume = 0.7){
 }
 
 window.addEventListener("load", function(){
-    readOptions().then(value => {
-        gOptions = value
+    readOptions().then(options => {
+        gOptions = options
+        gEventManager = new EventManager()
+        bodyObserver.observe(document.body, observerOptions)
+        console.log('v' + VERSION + ' loaded')
         setTimeout(() => {
             // add timeout to skip past events when IQ is first loaded
-            bodyObserver.observe(document.body, observerOptions)
-            console.log('v' + VERSION + ' loaded')
-        }, 2500);
-
+            gStartDelay = false
+            console.debug('Startup complete.')
+        }, 3000);
     })
 });

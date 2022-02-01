@@ -8,6 +8,7 @@ export function readOptions () {
             bonusAlert: true,
             bossAlert: true,
             eventAlert: true,
+            clanAlert: false,
             bonusAlertDone: false,
             bossAlertDone: false,
             eventAlertDone: false,
