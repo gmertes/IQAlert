@@ -37,7 +37,7 @@ const bodyObserver = new MutationObserver(mutations => {
             if(node.className === "main-section"){
                 let item = node.innerHTML.toLowerCase()
                 //boss
-                if(gOptions.bossAlert && item.includes("clickable") && item.includes("boss")){
+                if(gOptions.bossAlert && item.includes("clickable") && item.includes("boss") && !item.includes("tokens")){
                     console.log('boss')
                     playSound(soundBoss, gOptions.soundVolume);
                     notifyMe('IQ Alert!', 'BOSS! 🤠')
