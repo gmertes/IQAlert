@@ -34,25 +34,62 @@ class EventManager{
             return true
         }
     }
+
+    doAlert(sound, text, title = 'IQ Alert!'){
+        this.playSound(sound, gOptions.soundVolume);
+        this.notifyMe(title, text)
+    }
+
+    notifyMe(title, text) {
+        if(!gDesktopNotificationOnCooldown && gOptions.desktopNotifications){
+            gDesktopNotificationOnCooldown = true;
+            setTimeout(()=>{ gDesktopNotificationOnCooldown = false; }, 7000);
+            let notification;
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notification");
+            }
+            else if (Notification.permission === "granted") {
+                notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
+            }
+            else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === "granted") {
+                        notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
+                    }
+                });
+            }
+            notification.onclick = function () {
+                window.focus();
+                this.close();
+            };
+            setTimeout(notification.close.bind(notification), 7000);
+        }
+    }
+
+    playSound(sound, volume = 0.7){
+        let audio = new Audio(sound);
+        audio.volume = volume;
+        audio.play();
+    }
 }
 
 const bodyObserver = new MutationObserver(mutations => {
     //console.debug(mutations)
     mutations.forEach(mutation => {
-        if(mutation.type === "characterData"){
+        if(gOptions.autoAlert && mutation.type === "characterData"){
             //autos
-            if(gOptions.autoAlert && mutation.target.parentNode.className === "action-timer__text"){
+            if(mutation.target.parentNode.className === "action-timer__text"){
                 let autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
                 if((autosRemaining <= gOptions.autoAlertNumber && autosRemaining > 0)) {
                     if (autosRemaining === gOptions.autoAlertNumber) {
-                        notifyMe('IQ Auto Alert!', 'You have ' + gOptions.autoAlertNumber + ' autos remaining!');
+                        gEventManager.notifyMe('IQ Auto Alert!', 'You have ' + autosRemaining + ' autos remaining!');
                     }
-                    playSound(soundAuto, gOptions.soundVolume);
+                    gEventManager.playSound(soundAuto, gOptions.soundVolume);
                 }
             }
         }
 
-        if(mutation.type === "attributes"){
+        if(gOptions.clanAlert && mutation.type === "attributes"){
             const cname = mutation.target.className
             const chan = mutation.target.innerText
             // first time opening clan channel timeout
@@ -77,24 +114,21 @@ const bodyObserver = new MutationObserver(mutations => {
                 //event
                 if(gOptions.eventAlert && item.includes("event")){
                     console.log('event')
-                    playSound(soundEvent, gOptions.soundVolume);
-                    notifyMe('IQ Event!', node.innerText.split('\n\n')[1].split('\n')[0])
+                    gEventManager.doAlert(soundEvent, node.innerText.split('\n\n')[1].split('\n')[0])
                 }
 
                 //bonus
                 if(gOptions.bonusAlert && item.includes("bonus exp")){
                     console.log('bonus')
-                    playSound(soundEvent, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'Bonus time! 🥳')
+                    gEventManager.doAlert(soundEvent,'Bonus time! 🥳')
                 }
             }
 
             //raid return
-            if(!gStartDelay && node.parentNode.className.includes("space-between")){
-                if(gOptions.raidAlert && node.innerText.toLowerCase() === "returned"){
-                    playSound(soundDone, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'Raid has returned 😎')
+            if(!gStartDelay && gOptions.raidAlert && node.parentNode.className.includes("space-between")){
+                if(node.innerText.toLowerCase() === "returned"){
                     console.log('Raid returned kek')
+                    gEventManager.doAlert(soundDone,'Raid has returned 😎')
                 }
             }
 
@@ -103,38 +137,35 @@ const bodyObserver = new MutationObserver(mutations => {
                 console.debug(item)
                 //gathering bonus
                 if(gOptions.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
-                    playSound(soundEvent, gOptions.soundVolume);
-                    notifyMe('IQ Gathering Bonus! ⛏', item)
                     console.log('gathering event: ' + item)
+                    gEventManager.doAlert(soundEvent, item, 'IQ Gathering Bonus! ⛏')
                 }
 
                 //boss
                 if(gOptions.bossAlert && item.toLowerCase().includes("rift to the dark realm has opened")){
                     console.log('boss')
-                    playSound(soundBoss, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'BOSS! 🤠')
+                    gEventManager.doAlert(soundBoss,'BOSS! 🤠')
                 }
             }
 
             // clan alerts
-            if(node.className === "chat-msg-clan-global"){
+            if(gOptions.clanAlert && node.className === "chat-msg-clan-global"){
                 //Examples:
                 //chat-msg: [09:46:55] Peasant Nickname: message
                 //chat-msg-clan-global: [12:07:18] Clan: Nickname received a Clan Resource Rush of 26,565 \n\n[Wood]\n\n.
 
-                // First time we open the Clan tab we get historic events. gFirstClanLoad flag is used so that we fill the map
-                // with these events without triggering alerts. After the flag is cleared, we start generating
-                // alerts for new events.
+                // Every time the Clan tab is opened, the chat log is filled with past events and this mutation triggers.
+                // gFirstClanLoad flag is used to suppress alerts for these events.
+                // After the flag is cleared (automatically by timer), we start generating alerts for new events.
                 const match = node.innerText.match(/\[(.*?)\]/g)
                 if(match){
                     const timestamp = match[0].replace("[", "").replace("]", "")
                     const msg = node.innerText.split(":")[3].replaceAll("\n","").trim()
 
-                    if(gOptions.clanAlert && gEventManager.newClanEvent(timestamp, msg)){
+                    if(gEventManager.newClanEvent(timestamp, msg)){
                         if(!gFirstClanLoad){
-                            playSound(soundDone, gOptions.soundVolume)
-                            notifyMe('IQ Clan Alert', msg)
                             console.log('Clan alert: ', msg)
+                            gEventManager.doAlert(soundDone, msg, 'IQ Clan Alert')
                         }
                     }
                 }
@@ -146,20 +177,17 @@ const bodyObserver = new MutationObserver(mutations => {
                 let item = node.innerHTML.toLowerCase()
                 if(gOptions.eventAlertDone && item.includes("event")){
                     console.log('event over')
-                    playSound(soundDone, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'Event finished.')
+                    gEventManager.doAlert(soundDone,'Event finished.')
                 }
 
                 if(gOptions.bonusAlertDone && item.includes("bonus exp")){
                     console.log('bonus over')
-                    playSound(soundDone, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'Bonus finished (or extended).')
+                    gEventManager.doAlert(soundDone, 'Bonus finished (or extended).')
                 }
 
                 if(gOptions.bossAlertDone && item.includes("boss-container")){
                     console.log('boss over')
-                    playSound(soundDone, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'Boss defeated.')
+                    gEventManager.doAlert(soundDone, 'Boss defeated.')
                 }
             }
         });
@@ -171,38 +199,6 @@ const observerOptions = {
     childList: true,
     characterData: true
 };
-
-function notifyMe(title, text) {
-    if(!gDesktopNotificationOnCooldown && gOptions.desktopNotifications){
-        gDesktopNotificationOnCooldown = true;
-        setTimeout(()=>{ gDesktopNotificationOnCooldown = false; }, 7000);
-        let notification;
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        }
-        else if (Notification.permission === "granted") {
-            notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
-        }
-        else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(function (permission) {
-                if (permission === "granted") {
-                    notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png")});
-                }
-            });
-        }
-        notification.onclick = function () {
-            window.focus();
-            this.close();
-        };
-        setTimeout(notification.close.bind(notification), 7000);
-    }
-}
-
-function playSound(sound, volume = 0.7){
-    let audio = new Audio(sound);
-    audio.volume = volume;
-    audio.play();
-}
 
 window.addEventListener("load", function(){
     readOptions().then(options => {
