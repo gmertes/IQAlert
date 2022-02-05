@@ -74,13 +74,6 @@ const bodyObserver = new MutationObserver(mutations => {
         mutation.addedNodes.forEach(node => {
             if(node.className === "main-section"){
                 let item = node.innerHTML.toLowerCase()
-                //boss
-                if(gOptions.bossAlert && item.includes("clickable") && item.includes("boss") && !item.includes("tokens")){
-                    console.log('boss')
-                    playSound(soundBoss, gOptions.soundVolume);
-                    notifyMe('IQ Alert!', 'BOSS! 🤠')
-                }
-
                 //event
                 if(gOptions.eventAlert && item.includes("event")){
                     console.log('event')
@@ -107,13 +100,22 @@ const bodyObserver = new MutationObserver(mutations => {
 
             if(!gStartDelay && node.className === "notification"){
                 let item = node.innerText
+                console.debug(item)
                 //gathering bonus
                 if(gOptions.eventAlert && item.toLowerCase().includes("gathering bonus is now active")){
                     playSound(soundEvent, gOptions.soundVolume);
                     notifyMe('IQ Gathering Bonus! ⛏', item)
                     console.log('gathering event: ' + item)
                 }
+
+                //boss
+                if(gOptions.bossAlert && item.toLowerCase().includes("rift to the dark realm has opened")){
+                    console.log('boss')
+                    playSound(soundBoss, gOptions.soundVolume);
+                    notifyMe('IQ Alert!', 'BOSS! 🤠')
+                }
             }
+
             // clan alerts
             if(node.className === "chat-msg-clan-global"){
                 //Examples:
