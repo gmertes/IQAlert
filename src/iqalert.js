@@ -1,4 +1,5 @@
 import { readOptions } from './option_functions.js';
+const console = require('./console');
 
 const soundAuto = chrome.runtime.getURL("auto.mp3")
 const soundBoss = chrome.runtime.getURL("boss.mp3")
@@ -9,14 +10,6 @@ let gOptions, gEventManager
 let gDesktopNotificationOnCooldown = false, gStartDelay = true, gFirstClanLoad = false
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
-
-const prefix = 'IQ Alert>';
-const console = {
-    log: (...args) => window.console.log(prefix, ...args),
-    debug: (...args) => {if(DEBUG) window.console.log(prefix + "debug>", ...args)},
-    warn: (...args) => window.console.warn(prefix, ...args),
-    error: (...args) => window.console.error(prefix, ...args),
-};
 
 class EventManager{
     constructor() {
