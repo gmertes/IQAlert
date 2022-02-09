@@ -1,4 +1,4 @@
-export function readOptions () {
+function readOptions() {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({
             soundVolume: .7,
@@ -14,7 +14,9 @@ export function readOptions () {
             eventAlertDone: false,
             desktopNotifications: true,
         }, function (options) {
-            resolve(options);
-        });
-    });
-};
+            resolve(options)
+        })
+    })
+}
+
+module.exports = readOptions

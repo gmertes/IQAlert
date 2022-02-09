@@ -1,4 +1,4 @@
-import { readOptions } from './option_functions.js';
+readOptions = require('./readoptions')
 
 function save_options() {
     chrome.storage.sync.set({

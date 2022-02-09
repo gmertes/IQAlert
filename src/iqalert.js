@@ -1,4 +1,4 @@
-import { readOptions } from './option_functions.js';
+readOptions = require('./readoptions')
 const console = require('./console');
 
 const soundAuto = chrome.runtime.getURL("auto.mp3")
