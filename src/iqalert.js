@@ -206,3 +206,20 @@ window.addEventListener("load", function(){
         }, 3000);
     })
 });
+
+// inject our wsHook
+const s = document.createElement('script');
+s.src = chrome.runtime.getURL('iqalert_wsHook.min.js');
+s.onload = function() {
+    this.remove();
+};
+(document.head || document.documentElement).appendChild(s);
+
+window.addEventListener('message', function(event) {
+    let type = event.data.type;
+    let data =  JSON.parse(event.data.msg);
+    if(type === "iqalert_ws-receive"){
+        if(data.type !== "playersOnline")
+            console.debug('ws data:', data);
+    }
+});

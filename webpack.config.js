@@ -30,6 +30,7 @@ const configs = browsers.map(browser => {
 
     entry: {
       iqalert: path.join(kSourceDir, 'iqalert.js'),
+      iqalert_wshook: path.join(kSourceDir, 'iqalert_wsHook.js'),
       options: path.join(kSourceDir, 'options.js'),
     },
     output: {
