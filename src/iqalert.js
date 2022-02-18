@@ -1,3 +1,5 @@
+require('./iqwidget');
+
 const readOptions = require('./readoptions');
 const console = require('./console');
 
