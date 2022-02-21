@@ -32,7 +32,7 @@ var wsHook = {};
 
   var before = wsHook.before = function (data, url, wsObject) {
     //iqalert edit
-    window.postMessage({ type: 'iqalert_ws-send', msg: e.data});
+    //window.postMessage({ type: 'iqalert_ws-send', msg: data});
     return data
   }
   var after = wsHook.after = function (e, url, wsObject) {
