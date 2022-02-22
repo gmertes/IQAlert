@@ -99,7 +99,7 @@ function handleWSEvent(msg){
                     break;
                 case 'global':
                     if (msgText.includes('landed the final blow')){
-                        const player = msgText.split(' ')[0];
+                        const player = msgText.split(' landed')[0];
                         gOptions.bossAlertDone && doAlert(soundDone, `Boss defeated by ${player}.`);
                     }
                     break;
