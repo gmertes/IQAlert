@@ -13,7 +13,7 @@ if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
 // inject our wsHook
 const s = document.createElement('script');
-s.src = chrome.runtime.getURL('iqalert_wsHook.min.js');
+s.src = chrome.runtime.getURL('wsproxy.min.js');
 s.onload = function() { this.remove(); };
 (document.head || document.documentElement).appendChild(s);
 
