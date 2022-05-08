@@ -18,8 +18,9 @@ const kModulesDir = path.join(kProjectDir, 'node_modules');
 
 // -----------------------------------------------------------------------------
 
-const browsers = ['chrome'];
+const browsers = ['chrome', 'firefox'];
 const configs = browsers.map(browser => {
+  const mver = browser === 'chrome' ? 'v3' : 'v2';
   const buildDir = path.join(kBuildDir, browser);
   return {
     mode: mode,
@@ -43,7 +44,8 @@ const configs = browsers.map(browser => {
       new CopyWebpackPlugin({
         patterns: [
         {
-          from: path.join(kSourceDir, 'manifest.json'),
+          from: path.join(kSourceDir, `manifest-${mver}.json`),
+          to: "manifest.json",
           transform: (iqalert, path) => Buffer.from(JSON.stringify({
             short_name: process.env.npm_package_name,
             description: process.env.npm_package_description,

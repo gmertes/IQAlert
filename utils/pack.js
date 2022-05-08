@@ -22,7 +22,7 @@ const kPackageVersion = process.env.npm_package_version;
 // -----------------------------------------------------------------------------
 
 
-const browsers = ['chrome'];
+const browsers = ['chrome', 'firefox'];
 browsers.forEach(browser => {
   const buildDir = path.join(kBuildDir, browser);
   const outName = `${kPackageName}_v${kPackageVersion}_${browser}.zip`;
