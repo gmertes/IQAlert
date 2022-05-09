@@ -1,12 +1,15 @@
 IQ Alert
 ===============
-![Chrome users](https://img.shields.io/chrome-web-store/users/nhjapojbdgmjlnmlenegefgfjannjchb?label=Chrome%20users) 
+![Chrome users](https://img.shields.io/chrome-web-store/users/nhjapojbdgmjlnmlenegefgfjannjchb?label=Chrome%20users)
+![Firefox users](https://img.shields.io/amo/users/iqalert?label=Firefox%20users)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate?business=5GY9A82PFY38W&no_recurring=1&currency_code=EUR)
 
-A Chrome extension that adds sound alerts and desktop notifications for game events 
+A browser extension that adds sound alerts and desktop notifications for game events 
 in [Idle Quest RPG](https://www.iqrpg.com/).
 
 [<img src="https://user-images.githubusercontent.com/13658335/138092194-303708fb-9a4e-4e3f-a1dc-74baff1e45c9.png" height="59"/>](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb)
+[<img src="https://user-images.githubusercontent.com/13658335/138086366-8deee659-16c3-4621-b3f0-eaf4cb6ed9ba.png" height="60"/>](https://addons.mozilla.org/firefox/addon/iqalert/)
+
 
 Features
 ------------
@@ -18,7 +21,7 @@ Features
 
 Installation
 --
-Get the extension from the [Chrome store](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb). Refresh IQ after installing.
+Get the extension from the [Chrome](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb) or [Firefox](https://addons.mozilla.org/firefox/addon/iqalert/) stores. Refresh IQ after installing.
 
 Build
 ------------
