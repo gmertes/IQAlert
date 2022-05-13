@@ -8,6 +8,7 @@ const soundDone =  chrome.runtime.getURL("beep.mp3")
 
 let gOptions
 let gDesktopNotificationOnCooldown = false
+let gBonusActive = false;
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
@@ -69,16 +70,18 @@ function removeTags(str) {
 
 function handleWSEvent(msg){
     switch(msg.type){
-        case 'bonus':
-            if (msg.data.type === 'gold'){
-                if (msg.data.stage === 'start'){
-                    gOptions.bonusAlert && doAlert(soundEvent, 'Bonus time! 🥳');
-                    break;
+        case 'bonusTime':
+            if (msg.data.stage === 'end'){
+                gOptions.bonusAlertDone && doAlert(soundDone, 'Bonus finished.');
+                gBonusActive = false;
+            }else{
+                if(gOptions.bonusAlert) {
+                    if (gBonusActive)
+                        doAlert(soundEvent, 'Bonus time extended! 🎉');
+                    else
+                        doAlert(soundEvent, 'Bonus time! 🥳');
                 }
-                if (msg.data.stage === 'end'){
-                    gOptions.bonusAlertDone && doAlert(soundDone, 'Bonus finished.');
-                    break;
-                }
+                gBonusActive = true;
             }
             break;
         case 'msg':
