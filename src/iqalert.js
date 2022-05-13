@@ -1,27 +1,27 @@
-readOptions = require('./readoptions')
+readOptions = require('./readoptions');
 const console = require('./console');
 
-const soundAuto = chrome.runtime.getURL("auto.mp3")
-const soundBoss = chrome.runtime.getURL("boss.mp3")
-const soundEvent = chrome.runtime.getURL("event.mp3")
-const soundDone =  chrome.runtime.getURL("beep.mp3")
+const soundAuto = chrome.runtime.getURL("auto.mp3");
+const soundBoss = chrome.runtime.getURL("boss.mp3");
+const soundEvent = chrome.runtime.getURL("event.mp3");
+const soundDone =  chrome.runtime.getURL("beep.mp3");
 
-let gOptions
-let gDesktopNotificationOnCooldown = false
+let gOptions;
+let gDesktopNotificationOnCooldown = false;
 let gBonusActive = false;
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
-// inject our wsHook
+// inject our websocket proxy
 const s = document.createElement('script');
 s.src = chrome.runtime.getURL('wsproxy.min.js');
 s.onload = function() { this.remove(); };
 (document.head || document.documentElement).appendChild(s);
 
 function doAlert(sound, text, title = 'IQ Alert!'){
-    console.log(text)
+    console.log(text);
     playSound(sound, gOptions.soundVolume);
-    notifyMe(title, text)
+    notifyMe(title, text);
 }
 
 function notifyMe(title, text) {
@@ -148,7 +148,7 @@ const bodyObserver = new MutationObserver(mutations => {
             //raid return
             if(gOptions.raidAlert && node.parentNode.className.includes("space-between")){
                 if(node.innerText.toLowerCase() === "returned"){
-                    doAlert(soundDone,'Raid has returned 😎')
+                    doAlert(soundDone,'Raid has returned 😎');
                 }
             }
         });
