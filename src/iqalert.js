@@ -9,6 +9,7 @@ const soundDone =  chrome.runtime.getURL("beep.mp3");
 let gOptions;
 let gDesktopNotificationOnCooldown = false;
 let gBonusActive = false;
+let gPlayerName = undefined;
 
 if (Notification.permission !== "denied") { Notification.requestPermission(); }
 
@@ -174,5 +175,43 @@ window.addEventListener('message', function(event) {
         const data = JSON.parse(event.data.msg);
         (data.type !== 'playersOnline') && console.debug('WS receive:', data);
         handleWSEvent(data);
+
+        if(data.type === 'loadMessages'){
+            // use this as an entry point for game start:
+            //      user is on game screen and websocket connected
+
+            fetch("https://www.iqrpg.com/php/_load_initial_data.php", {
+                "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,nl;q=0.7",
+                    "cache-control": "no-cache",
+                    "pragma": "no-cache",
+                    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
+                    "sec-ch-ua-mobile": "?0",
+                    "sec-ch-ua-platform": "\"Windows\"",
+                    "sec-fetch-dest": "empty",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-site": "same-origin"
+                },
+                "referrer": window.location.href,
+                "referrerPolicy": "strict-origin-when-cross-origin",
+                "body": null,
+                "method": "GET",
+                "mode": "cors",
+                "credentials": "include"
+            }).then(data => data.json()).then(data => {
+                console.debug(data);
+
+                gPlayerName = data.player.username;
+                console.log(`Welcome back ${gPlayerName}!`);
+
+                if(data.misc.bonusTime.timeRemaining > 0){
+                    gBonusActive = true;
+                    console.debug('Bonus time was active on load.');
+                }else{
+                    gBonusActive = false;
+                }
+            });
+        }
     }
 });
