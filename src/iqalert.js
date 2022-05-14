@@ -186,23 +186,9 @@ window.addEventListener('message', function(event) {
 
             fetch("https://www.iqrpg.com/php/_load_initial_data.php", {
                 "headers": {
-                    "accept": "application/json, text/plain, */*",
-                    "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,nl;q=0.7",
-                    "cache-control": "no-cache",
-                    "pragma": "no-cache",
-                    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"",
-                    "sec-ch-ua-mobile": "?0",
-                    "sec-ch-ua-platform": "\"Windows\"",
-                    "sec-fetch-dest": "empty",
-                    "sec-fetch-mode": "cors",
-                    "sec-fetch-site": "same-origin"
+                    "accept": "application/json, text/plain, */*"
                 },
-                "referrer": window.location.href,
-                "referrerPolicy": "strict-origin-when-cross-origin",
-                "body": null,
-                "method": "GET",
-                "mode": "cors",
-                "credentials": "include"
+                "method": "GET"
             }).then(data => data.json()).then(data => {
                 console.debug(data);
 
