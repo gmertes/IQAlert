@@ -104,7 +104,11 @@ function handleWSEvent(msg){
                 case 'global':
                     if (msgText.includes('landed the final blow')){
                         const player = msgText.split(' landed')[0];
-                        gOptions.bossAlertDone && doAlert(soundDone, `Boss defeated by ${player}.`);
+
+                        if(player === gPlayerName)
+                            gOptions.bossAlert && doAlert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
+                        else
+                            gOptions.bossAlertDone && doAlert(soundDone, `Boss defeated by ${player}.`);
                     }
                     break;
             }
