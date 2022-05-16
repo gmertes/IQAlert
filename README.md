@@ -14,14 +14,23 @@ in [Idle Quest RPG](https://www.iqrpg.com/).
 Features
 ------------
 - Unique sound alerts for: raid returns, bosses, events, bonus effects
-- Auto alert: a beeping sound when your autos are about to run out
-- Clan events: get notified of Clan events like clan bosses or donations
-- Volume and individual alerts can be enabled/disabled in the option page (by clicking on the extension icon)
+- Auto alert: a beeping sound when your autos are below a chosen threshold
+- Clan events: get notified of clan events like clan bosses or donations
+- Sound volume and individual alerts can be configured on the options page
 - Desktop notifications
 
 Installation
 --
 Get the extension from the [Chrome](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb) or [Firefox](https://addons.mozilla.org/firefox/addon/iqalert/) stores. Refresh IQ after installing.
+
+Configuration
+-- 
+Click on the extension icon to bring up the options page. Press save and refresh IQ after making changes.
+
+Allow notifications on iqrpg.com for desktop notifications to work.
+
+<img width="250" src="https://user-images.githubusercontent.com/13658335/168467126-dffa19f1-c117-4a2f-9c3d-c3bb056d525c.png"/>
+
 
 Build
 ------------
