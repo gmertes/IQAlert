@@ -1,4 +1,4 @@
-readOptions = require('./readoptions')
+const readOptions = require('./readoptions');
 
 function save_options() {
     chrome.storage.sync.set({
@@ -25,7 +25,7 @@ function save_options() {
 }
 
 function set_options(){
-    document.getElementById('version').innerHTML = "v" + VERSION
+    document.getElementById('version').innerHTML = "v" + VERSION;
     readOptions().then(options => {
         document.getElementById('soundVolume').value = options.soundVolume*10;
         document.getElementById('autoAlertNumber').value = options.autoAlertNumber;
@@ -39,7 +39,7 @@ function set_options(){
         document.getElementById('raidAlert').checked = options.raidAlert;
         document.getElementById('clanAlert').checked = options.clanAlert;
         document.getElementById('desktopNotifications').checked = options.desktopNotifications;
-    })
+    });
 }
 
 document.addEventListener('DOMContentLoaded', set_options);

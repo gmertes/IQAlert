@@ -14,9 +14,9 @@ function readOptions() {
             eventAlertDone: false,
             desktopNotifications: true,
         }, function (options) {
-            resolve(options)
-        })
-    })
+            resolve(options);
+        });
+    });
 }
 
-module.exports = readOptions
+module.exports = readOptions;
