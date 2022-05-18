@@ -67,7 +67,7 @@ function removeTags(str) {
 function handleWSEvent(msg) {
     switch (msg.type) {
         case 'bonusTime':
-            if (msg.data.stage === 'end') {
+            if (msg.data.length === 0 || msg.data.stage === 'end') {
                 gOptions.bonusAlertDone && doAlert(soundDone, 'Bonus finished.');
                 gBonusActive = false;
             } else if (gOptions.bonusAlert) {
@@ -76,8 +76,8 @@ function handleWSEvent(msg) {
                 } else {
                     doAlert(soundEvent, 'Bonus time! 🥳');
                 }
+                gBonusActive = true;
             }
-            gBonusActive = true;
             break;
         case 'msg':
             let msgText = removeTags(msg.data.msg);
