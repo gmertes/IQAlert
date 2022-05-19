@@ -1,45 +1,12 @@
 const console = require('./console')
+const dialer = require('./dialer');
 
 class IQWidget{
     constructor() {
-        this.clanData = undefined
         this.idMain = "iqwidget_main"
         this.idClan = "iqwidget_clanmobs"
         this.divMain = undefined
         this.divClan = undefined
-    }
-
-    getData(){
-        return new Promise((resolve, reject) => {
-            fetch("https://www.iqrpg.com/php/clan.php?mod=loadBattlegrounds", {
-                "headers": {
-                    "Pragma": "no-cache",
-                    "Cache-Control": "no-cache",
-                    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"",
-                    "Accept": "application/json, text/plain, */*",
-                    "sec-ch-ua-mobile": "?0",
-                    "sec-ch-ua-platform": "\"Windows\"",
-                    "Sec-Fetch-Site": "same-origin",
-                    "Sec-Fetch-Mode": "cors",
-                    "Sec-Fetch-Dest": "empty",
-                    "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8,nl;q=0.7",
-                },
-                "Referrer": "https://www.iqrpg.com/game.html",
-                "referrerPolicy": "strict-origin-when-cross-origin",
-                "body": null,
-                "method": "GET",
-                "mode": "cors",
-                "credentials": "include"
-            }).then(data => data.json()).then(data => {
-                 if(data){
-                     this.clanData = data
-                     resolve(data)
-                 }else{
-                     this.clanData = undefined
-                     reject(undefined)
-                 }
-            })
-        })
     }
 
     attach(){
@@ -69,8 +36,8 @@ class IQWidget{
         }
     }
 
-    render(){
-        if(this.clanData && this.attach()){
+    renderBattlegrounds(data){
+        if(data && this.attach()){
             this.divClan.innerHTML = ''
 
             const clanTable = document.createElement('table');
@@ -82,8 +49,8 @@ class IQWidget{
 
             clanTable.appendChild(tableHeader)
 
-            const mobs = this.clanData["mobData"]
-            const bossData = this.clanData["bossData"]
+            const mobs = data["mobData"]
+            const bossData = data["bossData"]
             // const mobs = [
             //     {
             //         "id": 1,
@@ -143,7 +110,9 @@ class IQWidget{
     }
 
     update(){
-        this.getData().then(() => this.render())
+        dialer.loadBattlegrounds().then(data =>{
+           this.renderBattlegrounds(data);
+        });
     }
 }
 
