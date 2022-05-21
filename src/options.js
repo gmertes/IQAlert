@@ -16,6 +16,8 @@ function save_options() {
         desktopNotifications: document.getElementById('desktopNotifications').checked,
         widgets: {
             battlegrounds: document.getElementById('widgetBattlegrounds').checked,
+            removeHeader: document.getElementById('widgetRemoveHeader').checked,
+            removeAuto: document.getElementById('widgetRemoveAuto').checked,
         }
     }, function() {
         // Update status to let user know options were saved.
@@ -43,6 +45,8 @@ function set_options(){
         document.getElementById('clanAlert').checked = options.clanAlert;
         document.getElementById('desktopNotifications').checked = options.desktopNotifications;
         document.getElementById('widgetBattlegrounds').checked = options.widgets.battlegrounds;
+        document.getElementById('widgetRemoveHeader').checked = options.widgets.removeHeader;
+        document.getElementById('widgetRemoveAuto').checked = options.widgets.removeAuto;
     });
 }
 

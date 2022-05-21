@@ -15,6 +15,8 @@ function readOptions() {
             desktopNotifications: true,
             widgets: {
                 battlegrounds: false,
+                removeHeader: false,
+                removeAuto: false,
             }
         }, function (options) {
             resolve(options);

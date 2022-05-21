@@ -124,6 +124,16 @@ window.addEventListener('load', function() {
                 }, 7500);
             }
 
+            if(gOptions.widgets.removeHeader){
+                const elem = document.querySelector('.header');
+                elem.parentNode.removeChild(elem);
+            }
+
+            if(gOptions.widgets.removeAuto){
+                const elem = document.querySelector('.action-timer__overlay');
+                elem.parentNode.removeChild(elem);
+            }
+
         }, 1000);
     });
 });
