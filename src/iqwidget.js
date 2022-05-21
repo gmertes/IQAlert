@@ -1,5 +1,8 @@
+const readOptions = require('./readoptions');
 const console = require('./console');
 const dialer = require('./dialer');
+
+let gOptions;
 
 class IQWidget {
     constructor() {
@@ -107,16 +110,20 @@ class IQWidget {
 }
 
 window.addEventListener('load', function() {
-    const widget = new IQWidget();
-    console.debug('IQ Widget loaded');
+    readOptions().then(options => {
+        gOptions = options;
 
-    setTimeout(() => {
-        widget.update();
+        const widget = new IQWidget();
+        console.debug('IQ Widget loaded');
 
-        setInterval(() => {
-            widget.update();
-        }, 7500);
+        setTimeout(() => {
+            if(gOptions.widgets.battlegrounds){
+                widget.update();
+                setInterval(() => {
+                    widget.update();
+                }, 7500);
+            }
 
-    }, 1000);
-
+        }, 1000);
+    });
 });

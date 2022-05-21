@@ -14,6 +14,9 @@ function save_options() {
         raidAlert: document.getElementById('raidAlert').checked,
         clanAlert: document.getElementById('clanAlert').checked,
         desktopNotifications: document.getElementById('desktopNotifications').checked,
+        widgets: {
+            battlegrounds: document.getElementById('widgetBattlegrounds').checked,
+        }
     }, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -39,6 +42,7 @@ function set_options(){
         document.getElementById('raidAlert').checked = options.raidAlert;
         document.getElementById('clanAlert').checked = options.clanAlert;
         document.getElementById('desktopNotifications').checked = options.desktopNotifications;
+        document.getElementById('widgetBattlegrounds').checked = options.widgets.battlegrounds;
     });
 }
 

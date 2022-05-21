@@ -13,6 +13,9 @@ function readOptions() {
             bossAlertDone: false,
             eventAlertDone: false,
             desktopNotifications: true,
+            widgets: {
+                battlegrounds: false,
+            }
         }, function (options) {
             resolve(options);
         });
