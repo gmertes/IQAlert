@@ -17,6 +17,7 @@ function dial(url) {
 
 const dialer = {
     loadBattlegrounds: () => dial("https://www.iqrpg.com/php/clan.php?mod=loadBattlegrounds"),
+    loadInitialData: () => dial("https://www.iqrpg.com/php/_load_initial_data.php"),
 }
 
 module.exports = dialer;

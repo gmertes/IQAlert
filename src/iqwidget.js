@@ -117,19 +117,19 @@ window.addEventListener('load', function() {
         console.debug('IQ Widget loaded');
 
         setTimeout(() => {
-            if(gOptions.widgets.battlegrounds){
+            if (gOptions.widgets.battlegrounds) {
                 widget.update();
                 setInterval(() => {
                     widget.update();
                 }, 7500);
             }
 
-            if(gOptions.widgets.removeHeader){
+            if (gOptions.widgets.removeHeader) {
                 const elem = document.querySelector('.header');
                 elem.parentNode.removeChild(elem);
             }
 
-            if(gOptions.widgets.removeAuto){
+            if (gOptions.widgets.removeAuto) {
                 const elem = document.querySelector('.action-timer__overlay');
                 elem.parentNode.removeChild(elem);
             }

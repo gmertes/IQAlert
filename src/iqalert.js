@@ -2,6 +2,7 @@ require('./iqwidget');
 
 const readOptions = require('./readoptions');
 const console = require('./console');
+const dialer = require('./dialer');
 
 const soundAuto = chrome.runtime.getURL("auto.mp3");
 const soundBoss = chrome.runtime.getURL("boss.mp3");
@@ -179,12 +180,7 @@ window.addEventListener('message', function(event) {
             // use this as an entry point for game start:
             //      user is on game screen and websocket connected
 
-            fetch("https://www.iqrpg.com/php/_load_initial_data.php", {
-                "headers": {
-                    "accept": "application/json, text/plain, */*"
-                },
-                "method": "GET"
-            }).then(data => data.json()).then(data => {
+            dialer.loadInitialData().then(data => {
                 console.debug(data);
 
                 gPlayerName = data.player.username;
