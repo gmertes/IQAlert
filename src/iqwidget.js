@@ -114,10 +114,8 @@ window.addEventListener('load', function() {
         widget.update();
 
         setInterval(() => {
-            setTimeout(() => {
-                widget.update();
-            }, Math.floor(Math.random() * 3000));
-        }, 5000);
+            widget.update();
+        }, 7500);
 
     }, 1000);
 
