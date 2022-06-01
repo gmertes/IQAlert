@@ -23,7 +23,6 @@ s.onload = function() { this.remove(); };
 (document.head || document.documentElement).appendChild(s);
 
 function doAlert(sound, text, title = 'IQ Alert!') {
-    console.log(text);
     playSound(sound, gOptions.soundVolume);
     notifyMe(title, text);
 }
@@ -81,22 +80,27 @@ function handleWSEvent(msg) {
                 }
                 gBonusActive = true;
             }
+            console.log('bonus ' + msg.data.stage);
             break;
         case 'msg':
             let msgText = removeTags(msg.data.msg);
             switch (msg.data.type) {
                 case 'eventGlobal':
                     if (msgText.includes('rift to the dark realm has opened')) {
-                        gOptions.bossAlert && doAlert(soundBoss,'BOSS! 🤠');
+                        const text = console.log('BOSS! 🤠');
+                        gOptions.bossAlert && doAlert(soundBoss, text);
                     } else if (msgText.includes('gathering bonus is now active')) {
+                        console.log(msgText);
                         gOptions.eventAlert && doAlert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
                     }
                     break;
                 case 'clanGlobal':
+                    console.log(msgText);
                     gOptions.clanAlert && doAlert(soundDone, msgText, 'IQ Clan Alert');
                     break;
                 case 'global':
                     if (msgText.includes('landed the final blow')) {
+                        console.log(msgText);
                         const player = msgText.split(' landed')[0];
 
                         if (player === gPlayerName) {
@@ -124,21 +128,23 @@ function handleWSEvent(msg) {
                         break;
                 }
             }
+            console.log(msg.data.type + ' event');
             break;
     }
 }
 
 const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
-        if (gOptions.autoAlert && mutation.type === "characterData") {
+        if (mutation.type === "characterData") {
             //autos
             if (mutation.target.parentNode.className === "action-timer__text") {
                 let autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
                 if ((autosRemaining <= gOptions.autoAlertNumber && autosRemaining > 0)) {
                     if (autosRemaining === gOptions.autoAlertNumber) {
-                        notifyMe('IQ Auto Alert!', 'You have ' + autosRemaining + ' autos remaining!');
+                        console.log(autosRemaining + ' autos remaining');
+                        gOptions.autoAlert && notifyMe('IQ Auto Alert!', 'You have ' + autosRemaining + ' autos remaining!');
                     }
-                    playSound(soundAuto, gOptions.soundVolume);
+                    gOptions.autoAlert && playSound(soundAuto, gOptions.soundVolume);
                 }
             }
         }
@@ -146,11 +152,11 @@ const bodyObserver = new MutationObserver(mutations => {
         mutation.addedNodes.forEach(node => {
             //raid return
             if (
-                gOptions.raidAlert &&
                 node.parentNode.className.includes("space-between") &&
                 node.innerText.toLowerCase() === "returned"
             ) {
-                doAlert(soundDone,'Raid has returned 😎');
+                const text = console.log('Raid has returned 😎');
+                gOptions.raidAlert && doAlert(soundDone, text);
             }
         });
     });
