@@ -177,6 +177,9 @@ window.addEventListener("load", function() {
 });
 
 window.addEventListener('message', function(event) {
+    if (event.origin !== "https://www.iqrpg.com" && event.origin !== "https://iqrpg.com")
+        return;
+
     if (event.data.type === 'iqalert_ws-receive') {
         const data = JSON.parse(event.data.msg);
         (data.type !== 'playersOnline') && console.debug('WS receive:', data);
