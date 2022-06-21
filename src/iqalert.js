@@ -105,6 +105,7 @@ function handleWSEvent(msg) {
 
                         if (player === gPlayerName) {
                             gOptions.bossAlert && doAlert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
+                            console.log('YOU killed the boss!');
                         } else {
                             gOptions.bossAlertDone && doAlert(soundDone, `Boss defeated by ${player}.`);
                         }
