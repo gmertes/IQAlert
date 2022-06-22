@@ -14,7 +14,7 @@ let gDesktopNotificationOnCooldown = false;
 let gBonusActive = false;
 let gPlayerName = undefined;
 
-if (Notification.permission !== "denied") Notification.requestPermission();
+if (Notification.permission !== "denied") Notification.requestPermission().catch(() => {});
 
 // inject our websocket proxy
 const s = document.createElement('script');
@@ -41,7 +41,7 @@ function notifyMe(title, text) {
                 if (permission === "granted") {
                     notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
                 }
-            });
+            }).catch(() => {});
         }
         notification.onclick = function () {
             window.focus();
@@ -54,7 +54,7 @@ function notifyMe(title, text) {
 function playSound(sound, volume = 0.7) {
     let audio = new Audio(sound);
     audio.volume = volume;
-    audio.play();
+    audio.play().catch(() => {});
 }
 
 // strip HTML and IQ-specific tags
