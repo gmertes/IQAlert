@@ -80,7 +80,7 @@ function handleWSEvent(msg) {
                 }
                 gBonusActive = true;
             }
-            console.log('bonus ' + msg.data.stage);
+            console.log('bonus ' + gBonusActive);
             break;
         case 'msg':
             let msgText = removeTags(msg.data.msg);
@@ -198,7 +198,7 @@ window.addEventListener('message', function(event) {
 
                 if (data.misc.bonusTime.timeRemaining > 0) {
                     gBonusActive = true;
-                    console.debug('Bonus time was active on load.');
+                    console.log('Bonus time was active on load.');
                 } else {
                     gBonusActive = false;
                 }
