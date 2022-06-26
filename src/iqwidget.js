@@ -103,9 +103,7 @@ class IQWidget {
     }
 
     update() {
-        dialer.loadBattlegrounds().then(data =>{
-           this.renderBattlegrounds(data);
-        });
+        dialer.loadBattlegrounds().then(data => this.renderBattlegrounds(data)).catch(() => {});
     }
 }
 

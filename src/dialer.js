@@ -5,11 +5,13 @@ function dial(url) {
                 "Accept": "application/json, text/plain, */*"
             },
             "method": "GET"
-        }).then(data => data.json()).then(data => {
+        }).then(data => data.json()).catch(() => {
+            reject();
+        }).then(data => {
             if (data) {
                 resolve(data);
             } else {
-                reject(undefined);
+                reject();
             }
         });
     });

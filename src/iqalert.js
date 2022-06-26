@@ -183,8 +183,10 @@ window.addEventListener('message', function(event) {
 
     if (event.data.type === 'iqalert_ws-receive') {
         const data = JSON.parse(event.data.msg);
-        (data.type !== 'playersOnline') && console.debug('WS receive:', data);
+
         handleWSEvent(data);
+
+        (data.type !== 'playersOnline') && console.debug('WS receive:', data);
 
         if (data.type === 'loadMessages') {
             // use this as an entry point for game start:
@@ -202,7 +204,7 @@ window.addEventListener('message', function(event) {
                 } else {
                     gBonusActive = false;
                 }
-            });
+            }).catch(() => {});
         }
     }
 });
