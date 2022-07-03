@@ -24,7 +24,9 @@ class IQWidget {
 
             this.divMain.appendChild(this.divClan);
 
-            document.querySelector('.main-game-section').appendChild(this.divMain);
+            try {
+                document.querySelector('.main-game-section').appendChild(this.divMain);
+            } catch {}
 
             // check attachment
             if (document.getElementById(this.idMain)) {
@@ -124,12 +126,12 @@ window.addEventListener('load', function() {
 
             if (gOptions.widgets.removeHeader) {
                 const elem = document.querySelector('.header');
-                elem.parentNode.removeChild(elem);
+                if (elem) elem.parentNode.removeChild(elem);
             }
 
             if (gOptions.widgets.removeAuto) {
                 const elem = document.querySelector('.action-timer__overlay');
-                elem.parentNode.removeChild(elem);
+                if (elem) elem.parentNode.removeChild(elem);
             }
 
         }, 1000);
