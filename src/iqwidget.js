@@ -121,7 +121,7 @@ window.addEventListener('load', function() {
                 widget.update();
                 setInterval(() => {
                     widget.update();
-                }, 7500);
+                }, 15000);
             }
 
             if (gOptions.widgets.removeHeader) {
