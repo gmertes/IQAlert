@@ -1,4 +1,4 @@
-IQ Alert
+<img width="44" src="src/icon128.png" alt="settings screenshot"/> IQ Alert
 ===============
 ![Chrome users](https://img.shields.io/chrome-web-store/users/nhjapojbdgmjlnmlenegefgfjannjchb?label=Chrome%20users)
 ![Firefox users](https://img.shields.io/amo/users/iqalert?label=Firefox%20users)
@@ -17,23 +17,43 @@ Features
 - Auto alert: a beeping sound when your autos are below a chosen threshold
 - Clan events: get notified of clan events like clan bosses or donations
 - Sound volume and individual alerts can be configured on the options page
+- Support for widgets with UI alterations and additions
 - Desktop notifications
 
 Installation
 --
-Get the extension from the [Chrome](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb) or [Firefox](https://addons.mozilla.org/firefox/addon/iqalert/) stores. Refresh IQ after installing.
+Get the extension from the [Chrome](https://chrome.google.com/webstore/detail/iqalert/nhjapojbdgmjlnmlenegefgfjannjchb) or [Firefox](https://addons.mozilla.org/firefox/addon/iqalert/) store. Refresh IQ after installing.
 
-Configuration
--- 
-Click on the extension icon to bring up the options page. Press save and refresh IQ after making changes.
+### Configuration
+Click on the extension icon to bring up the [options page](#options). Press save and refresh IQ after making changes.
 
 Allow notifications on iqrpg.com for desktop notifications to work.
 
-<img width="250" src="https://user-images.githubusercontent.com/13658335/168467126-dffa19f1-c117-4a2f-9c3d-c3bb056d525c.png"/>
+### Widgets
+In addition to the various alerts, there are also a few "widgets" that can be enabled:
 
+- Clan battlegrounds: shows the remaining clan mobs on the main IQ screen (including clan bosses)
+- Remove header graphic
+- Remove auto bar animation
+
+Screenshots
+--
+#### Options
+<img width="260" src="https://user-images.githubusercontent.com/13658335/177411066-9882bed0-8aac-485e-9dc2-45cc92735270.png" alt="settings screenshot"/>
+
+#### Desktop notifications
+<p>
+<img width="330" src="https://user-images.githubusercontent.com/13658335/177621080-ac6d602c-f8ea-40e8-9298-eec356e31aaf.png" alt="desktop notification"/>
+<img width="330" src="https://user-images.githubusercontent.com/13658335/177621107-c64aefcc-95a2-4283-ac48-fd42d2ba52c0.png" alt="desktop notification"/>
+<img width="330" src="https://user-images.githubusercontent.com/13658335/177621116-8f2d48a4-eecd-47a0-96b7-33d72ab7847a.png" alt="desktop notification"/>
+<img width="330" src="https://user-images.githubusercontent.com/13658335/177622407-1ed6a36e-d77f-4f91-95b0-b79d840cebea.png" alt="desktop notification"/>
+</p>
+
+#### Clan Battlegrounds widget with header and auto animation removed
+<img width="550" src="https://user-images.githubusercontent.com/13658335/177624366-0816ef0b-4e7a-40ba-9b25-fafaaec2c4dd.png" alt="clan battlegrounds"/>
 
 Build
-------------
+---
 Requires Node.js. Output is in the `build` directory.
 ```
 git clone https://github.com/gmertes/IQAlert.git
