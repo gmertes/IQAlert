@@ -5,7 +5,7 @@ const console = {
         window.postMessage({type: 'iqalert_logger', msg: args[0]});
         return args[0];
     },
-    debug: (...args) => {if(DEBUG) window.console.log(prefix + "debug>", ...args)},
+    debug: (...args) => {if(DEBUG) window.console.debug(prefix, ...args)},
     warn: (...args) => window.console.warn(prefix, ...args),
     error: (...args) => window.console.error(prefix, ...args),
 };

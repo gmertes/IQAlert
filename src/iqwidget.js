@@ -1,6 +1,7 @@
 const readOptions = require('./readoptions');
 const console = require('./console');
 const dialer = require('./dialer');
+const trinket = require('./trinket');
 
 let gOptions;
 
@@ -122,6 +123,10 @@ window.addEventListener('load', function() {
                 setInterval(() => {
                     widget.update();
                 }, 15000);
+            }
+
+            if (gOptions.widgets.trinketScore) {
+                trinket.load(gOptions.widgets.trinketScoreType);
             }
 
             if (gOptions.widgets.removeHeader) {

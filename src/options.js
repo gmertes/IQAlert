@@ -18,6 +18,8 @@ function save_options() {
             battlegrounds: document.getElementById('widgetBattlegrounds').checked,
             removeHeader: document.getElementById('widgetRemoveHeader').checked,
             removeAuto: document.getElementById('widgetRemoveAuto').checked,
+            trinketScore: document.getElementById('widgetTrinketScore').checked,
+            trinketScoreType: document.getElementById('widgetTrinketScoreType').value,
         }
     }, function() {
         // Update status to let user know options were saved.
@@ -47,8 +49,17 @@ function set_options(){
         document.getElementById('widgetBattlegrounds').checked = options.widgets.battlegrounds;
         document.getElementById('widgetRemoveHeader').checked = options.widgets.removeHeader;
         document.getElementById('widgetRemoveAuto').checked = options.widgets.removeAuto;
+        document.getElementById('widgetTrinketScore').checked = options.widgets.trinketScore;
+        document.getElementById('widgetTrinketScoreType').value = options.widgets.trinketScoreType;
+
+        trinket();
     });
 }
 
+function trinket() {
+    document.getElementById('widgetTrinketScoreType').hidden = !document.getElementById('widgetTrinketScore').checked;
+}
+
+document.getElementById('widgetTrinketScore').addEventListener('input', trinket);
 document.addEventListener('DOMContentLoaded', set_options);
 document.getElementById('save').addEventListener('click', save_options);

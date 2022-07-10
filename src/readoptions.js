@@ -17,6 +17,8 @@ function readOptions() {
                 battlegrounds: false,
                 removeHeader: false,
                 removeAuto: false,
+                trinketScore: false,
+                trinketScoreType: 'battler',
             }
         }, function (options) {
             resolve(options);

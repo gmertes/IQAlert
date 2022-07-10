@@ -51,6 +51,11 @@
         visibility: visible;
         opacity: 1;
     }
+
+    #widgetTrinketScoreType {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
 </style>
 </head>
 <body>
@@ -99,6 +104,15 @@
     <caption><b style="color: #f300ff">Widgets</b></caption>
     <tr>
         <td><input type="checkbox" id="widgetBattlegrounds">Clan Battlegrounds</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox" id="widgetTrinketScore">Trinket Scorer (experimental)
+            <select id="widgetTrinketScoreType" hidden>
+                <option value="battler">Battler</option>
+                <option value="gatherer">Gatherer</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td><input type="checkbox" id="widgetRemoveHeader">Remove header graphic</td>
