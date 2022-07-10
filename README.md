@@ -33,13 +33,14 @@ Allow notifications on iqrpg.com for desktop notifications to work.
 In addition to the various alerts, there are also a few "widgets" that can be enabled:
 
 - Clan battlegrounds: shows the remaining clan mobs on the main IQ screen (including clan bosses)
+- Trinket scorer (experimental): Show a score for each trinket in your inventory based on the stat order from [iqrpg.guide](https://iqrpg.guide/). Choose between Battler or Gatherer from the options screen.
 - Remove header graphic
 - Remove auto bar animation
 
 Screenshots
 --
 #### Options
-<img width="260" src="https://user-images.githubusercontent.com/13658335/177411066-9882bed0-8aac-485e-9dc2-45cc92735270.png" alt="settings screenshot"/>
+<img width="260" src="https://user-images.githubusercontent.com/13658335/178152679-f73d460f-0bfb-428a-8241-de8a49cfa7dd.png" alt="settings screenshot"/>
 
 #### Desktop notifications
 <p>
@@ -51,6 +52,9 @@ Screenshots
 
 #### Clan Battlegrounds widget with header and auto animation removed
 <img width="550" src="https://user-images.githubusercontent.com/13658335/177624366-0816ef0b-4e7a-40ba-9b25-fafaaec2c4dd.png" alt="clan battlegrounds"/>
+
+#### Trinket Score widget
+<img width="550" src="https://user-images.githubusercontent.com/13658335/178152796-68daf251-23d7-48f0-b2f8-4b7430c1631f.png" alt="trinket score"/>
 
 Build
 ---
