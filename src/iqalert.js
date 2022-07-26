@@ -72,11 +72,11 @@ function handleWSEvent(msg) {
             if (msg.data.length === 0 || msg.data.stage === 'end') {
                 gOptions.bonusAlertDone && doAlert(soundDone, 'Bonus finished.');
                 gBonusActive = false;
-            } else if (gOptions.bonusAlert) {
+            } else {
                 if (gBonusActive) {
-                    doAlert(soundEvent, 'Bonus time extended! 🎉');
+                    gOptions.bonusAlert && doAlert(soundEvent, 'Bonus time extended! 🎉');
                 } else {
-                    doAlert(soundEvent, 'Bonus time! 🥳');
+                    gOptions.bonusAlert && doAlert(soundEvent, 'Bonus time! 🥳');
                 }
                 gBonusActive = true;
             }
