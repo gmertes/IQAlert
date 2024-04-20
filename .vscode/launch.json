@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Chrome debug",
+            "url": "https://www.iqrpg.com",
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}",
+            "runtimeArgs": [
+                "--load-extension=${workspaceFolder}/build/chrome"
+            ]
+        }
+    ]
+}

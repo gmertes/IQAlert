@@ -24,7 +24,7 @@ const configs = browsers.map(browser => {
   const buildDir = path.join(kBuildDir, browser);
   return {
     mode: mode,
-
+    devtool: !mini ? 'inline-source-map' : false,
     optimization: {
       minimize: mini
     },
