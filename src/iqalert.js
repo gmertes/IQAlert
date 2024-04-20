@@ -205,6 +205,11 @@ window.addEventListener('message', function (event) {
                     gBonusActive = false;
                 }
             }).catch(() => { });
+
+            dialer.loadClanMembers().then(data => {
+                const clanMembers = data.members.map(item => item.username);
+                console.debug('Clan members:', clanMembers);
+            }).catch(() => { });
         }
     }
 });
