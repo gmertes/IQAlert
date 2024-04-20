@@ -27,7 +27,7 @@ class IQWidget {
 
             try {
                 document.querySelector('.main-game-section').appendChild(this.divMain);
-            } catch {}
+            } catch { }
 
             // check attachment
             if (document.getElementById(this.idMain)) {
@@ -106,11 +106,11 @@ class IQWidget {
     }
 
     update() {
-        dialer.loadBattlegrounds().then(data => this.renderBattlegrounds(data)).catch(() => {});
+        dialer.loadBattlegrounds().then(data => this.renderBattlegrounds(data)).catch(() => { });
     }
 }
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     readOptions().then(options => {
         gOptions = options;
 

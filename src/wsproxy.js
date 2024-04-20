@@ -4,7 +4,7 @@ const OriginalWebsocket = window.WebSocket;
 const ProxiedWebSocket = function () {
     const ws = new OriginalWebsocket(...arguments);
     ws.addEventListener("message", function (e) {
-        window.postMessage({type: 'iqalert_ws-receive', msg: e.data});
+        window.postMessage({ type: 'iqalert_ws-receive', msg: e.data });
     });
     return ws;
 };

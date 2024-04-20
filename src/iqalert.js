@@ -14,12 +14,12 @@ let gDesktopNotificationOnCooldown = false;
 let gBonusActive = false;
 let gPlayerName = undefined;
 
-if (Notification.permission !== "denied") Notification.requestPermission().catch(() => {});
+if (Notification.permission !== "denied") Notification.requestPermission().catch(() => { });
 
 // inject our websocket proxy
 const s = document.createElement('script');
 s.src = chrome.runtime.getURL('wsproxy.min.js');
-s.onload = function() { this.remove(); };
+s.onload = function () { this.remove(); };
 (document.head || document.documentElement).appendChild(s);
 
 function doAlert(sound, text, title = 'IQ Alert!') {
@@ -30,7 +30,7 @@ function doAlert(sound, text, title = 'IQ Alert!') {
 function notifyMe(title, text) {
     if (!gDesktopNotificationOnCooldown && gOptions.desktopNotifications) {
         gDesktopNotificationOnCooldown = true;
-        setTimeout(()=>{ gDesktopNotificationOnCooldown = false; }, 7000);
+        setTimeout(() => { gDesktopNotificationOnCooldown = false; }, 7000);
         let notification;
         if (!("Notification" in window)) {
             alert("This browser does not support desktop notification");
@@ -41,7 +41,7 @@ function notifyMe(title, text) {
                 if (permission === "granted") {
                     notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
                 }
-            }).catch(() => {});
+            }).catch(() => { });
         }
         notification.onclick = function () {
             window.focus();
@@ -54,14 +54,14 @@ function notifyMe(title, text) {
 function playSound(sound, volume = 0.7) {
     let audio = new Audio(sound);
     audio.volume = volume;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
 }
 
 // strip HTML and IQ-specific tags
 function removeTags(str) {
     str = str.toString();
 
-    return str.replace( /(<([^>]+)>)/ig, '')
+    return str.replace(/(<([^>]+)>)/ig, '')
         .replaceAll('[item:', '')
         .replaceAll(']', '');
 }
@@ -115,7 +115,7 @@ function handleWSEvent(msg) {
             break;
         case 'event':
             if (msg.data.stage === 'end') {
-                gOptions.eventAlertDone && doAlert(soundDone,'Event finished.');
+                gOptions.eventAlertDone && doAlert(soundDone, 'Event finished.');
             } else if (gOptions.eventAlert) {
                 switch (msg.data.type) {
                     case 'woodcutting':
@@ -169,7 +169,7 @@ const observerOptions = {
     characterData: true
 };
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     readOptions().then(options => {
         gOptions = options;
         bodyObserver.observe(document.body, observerOptions);
@@ -177,7 +177,7 @@ window.addEventListener("load", function() {
     })
 });
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', function (event) {
     if (event.origin !== "https://www.iqrpg.com" && event.origin !== "https://iqrpg.com")
         return;
 
@@ -204,7 +204,7 @@ window.addEventListener('message', function(event) {
                 } else {
                     gBonusActive = false;
                 }
-            }).catch(() => {});
+            }).catch(() => { });
         }
     }
 });

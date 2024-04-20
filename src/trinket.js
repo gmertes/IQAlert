@@ -2,39 +2,39 @@ const console = require('./console');
 const dialer = require('./dialer');
 
 const battlerWeights = {
-    1: {name: "Combat Exp Boost", weight: 5},
-    2: {name: "Gathering Exp Boost", weight: 0},
-    3: {name: "Gold Boost", weight: 25},
-    4: {name: "Attribute Boost", weight: 20},
-    5: {name: "Mastery Boost", weight: 3},
-    6: {name: "Drop Boost", weight: 7},
-    7: {name: "Resource Boost", weight: 0},
-    8: {name: "Gathering Shards Boost", weight: 1},
-    11: {name: "Base Mob Gold", weight: 30},
-    12: {name: "Base Resources", weight: 0},
-    13: {name: "Double Items", weight: 1},
-    14: {name: "Item Rarity", weight: 1},
-    21: {name: "Health", weight: 10},
-    22: {name: "Attack", weight: 10},
-    23: {name: "Defence", weight: 10},
+    1: { name: "Combat Exp Boost", weight: 5 },
+    2: { name: "Gathering Exp Boost", weight: 0 },
+    3: { name: "Gold Boost", weight: 25 },
+    4: { name: "Attribute Boost", weight: 20 },
+    5: { name: "Mastery Boost", weight: 3 },
+    6: { name: "Drop Boost", weight: 7 },
+    7: { name: "Resource Boost", weight: 0 },
+    8: { name: "Gathering Shards Boost", weight: 1 },
+    11: { name: "Base Mob Gold", weight: 30 },
+    12: { name: "Base Resources", weight: 0 },
+    13: { name: "Double Items", weight: 1 },
+    14: { name: "Item Rarity", weight: 1 },
+    21: { name: "Health", weight: 10 },
+    22: { name: "Attack", weight: 10 },
+    23: { name: "Defence", weight: 10 },
 };
 
 const gathererWeights = {
-    1: {name: "Combat Exp Boost", weight: 0},
-    2: {name: "Gathering Exp Boost", weight: 13},
-    3: {name: "Gold Boost", weight: 1},
-    4: {name: "Attribute Boost", weight: 1},
-    5: {name: "Mastery Boost", weight: 10},
-    6: {name: "Drop Boost", weight: 15},
-    7: {name: "Resource Boost", weight: 25},
-    8: {name: "Gathering Shards Boost", weight: 20},
-    11: {name: "Base Mob Gold", weight: 1},
-    12: {name: "Base Resources", weight: 30},
-    13: {name: "Double Items", weight: 12},
-    14: {name: "Item Rarity", weight: 8},
-    21: {name: "Health", weight: 0},
-    22: {name: "Attack", weight: 0},
-    23: {name: "Defence", weight: 0},
+    1: { name: "Combat Exp Boost", weight: 0 },
+    2: { name: "Gathering Exp Boost", weight: 13 },
+    3: { name: "Gold Boost", weight: 1 },
+    4: { name: "Attribute Boost", weight: 1 },
+    5: { name: "Mastery Boost", weight: 10 },
+    6: { name: "Drop Boost", weight: 15 },
+    7: { name: "Resource Boost", weight: 25 },
+    8: { name: "Gathering Shards Boost", weight: 20 },
+    11: { name: "Base Mob Gold", weight: 1 },
+    12: { name: "Base Resources", weight: 30 },
+    13: { name: "Double Items", weight: 12 },
+    14: { name: "Item Rarity", weight: 8 },
+    21: { name: "Health", weight: 0 },
+    22: { name: "Attack", weight: 0 },
+    23: { name: "Defence", weight: 0 },
 };
 
 let gWeights = {};
@@ -78,7 +78,7 @@ const bodyObserver = new MutationObserver(mutations => {
                         helpText.classList.add('margin-bottom-medium');
                         helpText.classList.add('text-rarity-1');
                         table.parentNode.insertBefore(helpText, table);
-                    }).catch(() => {});
+                    }).catch(() => { });
 
                 }
             }

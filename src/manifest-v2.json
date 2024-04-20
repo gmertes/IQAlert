@@ -12,14 +12,28 @@
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
-    "128": "icon128.png" },
+    "128": "icon128.png"
+  },
   "content_scripts": [
     {
-      "matches": ["*://*.iqrpg.com/*"],
-      "exclude_matches": ["*://test.iqrpg.com/*"],
-      "js": ["iqalert.min.js"],
+      "matches": [
+        "*://*.iqrpg.com/*"
+      ],
+      "exclude_matches": [
+        "*://test.iqrpg.com/*"
+      ],
+      "js": [
+        "iqalert.min.js"
+      ],
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": [ "auto.mp3", "boss.mp3", "event.mp3", "beep.mp3", "icon128.png", "wsproxy.min.js" ]
+  "web_accessible_resources": [
+    "auto.mp3",
+    "boss.mp3",
+    "event.mp3",
+    "beep.mp3",
+    "icon128.png",
+    "wsproxy.min.js"
+  ]
 }
