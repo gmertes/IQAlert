@@ -22,15 +22,15 @@ s.src = chrome.runtime.getURL('wsproxy.min.js');
 s.onload = function () { this.remove(); };
 (document.head || document.documentElement).appendChild(s);
 
-function doAlert(sound, text, title = 'IQ Alert!') {
+function alert(sound, text, title = 'IQ Alert!') {
     playSound(sound, gOptions.soundVolume);
-    notifyMe(title, text);
+    notify(title, text);
 }
 
-function notifyMe(title, text, cooldown = 7000, skipIfActive = false) {
+function notify(title, text, cooldown = 7000, skipIfActive = false) {
     if (skipIfActive && !document.hidden)
         return;
-    
+
     if (gDesktopNotificationOnCooldown || !gOptions.desktopNotifications)
         return;
 
@@ -75,13 +75,13 @@ function handleWSEvent(msg) {
     switch (msg.type) {
         case 'bonusTime':
             if (msg.data.length === 0 || msg.data.stage === 'end') {
-                gOptions.bonusAlertDone && doAlert(soundDone, 'Bonus finished.');
+                gOptions.bonusAlertDone && alert(soundDone, 'Bonus finished.');
                 gBonusActive = false;
             } else {
                 if (gBonusActive) {
-                    gOptions.bonusAlert && doAlert(soundEvent, 'Bonus time extended! 🎉');
+                    gOptions.bonusAlert && alert(soundEvent, 'Bonus time extended! 🎉');
                 } else {
-                    gOptions.bonusAlert && doAlert(soundEvent, 'Bonus time! 🥳');
+                    gOptions.bonusAlert && alert(soundEvent, 'Bonus time! 🥳');
                 }
                 gBonusActive = true;
             }
@@ -93,15 +93,15 @@ function handleWSEvent(msg) {
                 case 'eventGlobal':
                     if (msgText.includes('rift to the dark realm has opened')) {
                         const text = console.log('BOSS! 🤠');
-                        gOptions.bossAlert && doAlert(soundBoss, text);
+                        gOptions.bossAlert && alert(soundBoss, text);
                     } else if (msgText.includes('gathering bonus is now active')) {
                         console.log(msgText);
-                        gOptions.eventAlert && doAlert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
+                        gOptions.eventAlert && alert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
                     }
                     break;
                 case 'clanGlobal':
                     console.log(msgText);
-                    gOptions.clanAlert && doAlert(soundDone, msgText, 'IQ Clan Alert');
+                    gOptions.clanAlert && alert(soundDone, msgText, 'IQ Clan Alert');
                     break;
                 case 'global':
                     if (msgText.includes('landed the final blow')) {
@@ -109,10 +109,10 @@ function handleWSEvent(msg) {
                         const player = msgText.split(' landed')[0];
 
                         if (player === gPlayerName) {
-                            gOptions.bossAlert && doAlert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
+                            gOptions.bossAlert && alert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
                             console.log('YOU killed the boss!');
                         } else {
-                            gOptions.bossAlertDone && doAlert(soundDone, `Boss defeated by ${player}.`);
+                            gOptions.bossAlertDone && alert(soundDone, `Boss defeated by ${player}.`);
                         }
                     }
                     break;
@@ -120,17 +120,17 @@ function handleWSEvent(msg) {
             break;
         case 'event':
             if (msg.data.stage === 'end') {
-                gOptions.eventAlertDone && doAlert(soundDone, 'Event finished.');
+                gOptions.eventAlertDone && alert(soundDone, 'Event finished.');
             } else if (gOptions.eventAlert) {
                 switch (msg.data.type) {
                     case 'woodcutting':
-                        doAlert(soundEvent, 'A spirit tree has sprung up out of the dirt...', 'Woodcutting event 🪓');
+                        alert(soundEvent, 'A spirit tree has sprung up out of the dirt...', 'Woodcutting event 🪓');
                         break;
                     case 'mining':
-                        doAlert(soundEvent, 'A burning meteorite filled with valuable metals...', 'Mining event ⛏');
+                        alert(soundEvent, 'A burning meteorite filled with valuable metals...', 'Mining event ⛏');
                         break;
                     case 'quarrying':
-                        doAlert(soundEvent, 'A sinkhole has appeared in the ground...', 'Quarrying event ⚒');
+                        alert(soundEvent, 'A sinkhole has appeared in the ground...', 'Quarrying event ⚒');
                         break;
                 }
             }
@@ -148,7 +148,7 @@ const bodyObserver = new MutationObserver(mutations => {
                 if ((autosRemaining <= gOptions.autoAlertNumber && autosRemaining > 0)) {
                     if (autosRemaining === gOptions.autoAlertNumber) {
                         console.log(autosRemaining + ' autos remaining');
-                        gOptions.autoAlert && notifyMe('IQ Auto Alert!', 'You have ' + autosRemaining + ' autos remaining!');
+                        gOptions.autoAlert && notify('IQ Auto Alert!', 'You have ' + autosRemaining + ' autos remaining!');
                     }
                     gOptions.autoAlert && playSound(soundAuto, gOptions.soundVolume);
                 }
@@ -162,7 +162,7 @@ const bodyObserver = new MutationObserver(mutations => {
                 node.innerText.toLowerCase() === "returned"
             ) {
                 const text = console.log('Raid has returned 😎');
-                gOptions.raidAlert && doAlert(soundDone, text);
+                gOptions.raidAlert && alert(soundDone, text);
             }
         });
     });
