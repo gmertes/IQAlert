@@ -28,27 +28,29 @@ function doAlert(sound, text, title = 'IQ Alert!') {
 }
 
 function notifyMe(title, text) {
-    if (!gDesktopNotificationOnCooldown && gOptions.desktopNotifications) {
-        gDesktopNotificationOnCooldown = true;
-        setTimeout(() => { gDesktopNotificationOnCooldown = false; }, 7000);
-        let notification;
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        } else if (Notification.permission === "granted") {
-            notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
-        } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(function (permission) {
-                if (permission === "granted") {
-                    notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
-                }
-            }).catch(() => { });
-        }
-        notification.onclick = function () {
-            window.focus();
-            this.close();
-        };
-        setTimeout(notification.close.bind(notification), 7000);
+    if (gDesktopNotificationOnCooldown || !gOptions.desktopNotifications)
+        return;
+
+    gDesktopNotificationOnCooldown = true;
+    setTimeout(() => { gDesktopNotificationOnCooldown = false; }, 7000);
+    
+    let notification;
+    if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+        notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+                notification = new Notification(title, { body: text, silent: true, icon: chrome.runtime.getURL("icon128.png") });
+            }
+        }).catch(() => { });
     }
+    notification.onclick = function () {
+        window.focus();
+        this.close();
+    };
+    setTimeout(notification.close.bind(notification), 7000);
 }
 
 function playSound(sound, volume = 0.7) {
