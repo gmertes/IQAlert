@@ -27,12 +27,15 @@ function doAlert(sound, text, title = 'IQ Alert!') {
     notifyMe(title, text);
 }
 
-function notifyMe(title, text) {
+function notifyMe(title, text, cooldown = 7000, skipIfActive = false) {
+    if (skipIfActive && !document.hidden)
+        return;
+    
     if (gDesktopNotificationOnCooldown || !gOptions.desktopNotifications)
         return;
 
     gDesktopNotificationOnCooldown = true;
-    setTimeout(() => { gDesktopNotificationOnCooldown = false; }, 7000);
+    setTimeout(() => { gDesktopNotificationOnCooldown = false; }, cooldown);
     
     let notification;
     if (!("Notification" in window)) {
