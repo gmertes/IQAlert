@@ -36,7 +36,7 @@ function notify(title, text, cooldown = 7000, skipIfActive = false) {
 
     gDesktopNotificationOnCooldown = true;
     setTimeout(() => { gDesktopNotificationOnCooldown = false; }, cooldown);
-    
+
     let notification;
     if (!("Notification" in window)) {
         alert("This browser does not support desktop notification");
@@ -186,35 +186,38 @@ window.addEventListener('message', function (event) {
     if (event.origin !== "https://www.iqrpg.com" && event.origin !== "https://iqrpg.com")
         return;
 
-    if (event.data.type === 'iqalert_ws-receive') {
-        const data = JSON.parse(event.data.msg);
+    if (event.data.type !== 'iqalert_ws-receive')
+        return;
 
-        handleWSEvent(data);
+    const data = JSON.parse(event.data.msg);
 
-        (data.type !== 'playersOnline') && console.debug('WS receive:', data);
+    handleWSEvent(data);
 
-        if (data.type === 'loadMessages') {
-            // use this as an entry point for game start:
-            //      user is on game screen and websocket connected
+    if (data.type !== 'playersOnline')
+        console.debug('WS receive:', data);
 
-            dialer.loadInitialData().then(data => {
-                console.debug(data);
+    if (data.type !== 'loadMessages')
+        return;
 
-                gPlayerName = data.player.username;
-                console.log(`Welcome back ${gPlayerName}!`);
+    // use this as an entry point for game start:
+    //      user is on game screen and websocket connected
 
-                if (data.misc.bonusTime.timeRemaining > 0) {
-                    gBonusActive = true;
-                    console.log('Bonus time was active on load.');
-                } else {
-                    gBonusActive = false;
-                }
-            }).catch(() => { });
+    dialer.loadInitialData().then(data => {
+        console.debug(data);
 
-            dialer.loadClanMembers().then(data => {
-                const clanMembers = data.members.map(item => item.username);
-                console.debug('Clan members:', clanMembers);
-            }).catch(() => { });
+        gPlayerName = data.player.username;
+        console.log(`Welcome back ${gPlayerName}!`);
+
+        if (data.misc.bonusTime.timeRemaining > 0) {
+            gBonusActive = true;
+            console.log('Bonus time was active on load.');
+        } else {
+            gBonusActive = false;
         }
-    }
+    }).catch(() => { });
+
+    dialer.loadClanMembers().then(data => {
+        const clanMembers = data.members.map(item => item.username);
+        console.debug('Clan members:', clanMembers);
+    }).catch(() => { });
 });
