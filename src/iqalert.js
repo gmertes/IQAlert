@@ -71,10 +71,10 @@ function removeTags(str) {
         .replaceAll(']', '');
 }
 
-function handleWSEvent(msg) {
-    switch (msg.type) {
+function handleWSEvent(event) {
+    switch (event.type) {
         case 'bonusTime':
-            if (msg.data.length === 0 || msg.data.stage === 'end') {
+            if (event.data.length === 0 || event.data.stage === 'end') {
                 gOptions.bonusAlertDone && alert(soundDone, 'Bonus finished.');
                 gBonusActive = false;
             } else {
@@ -88,8 +88,8 @@ function handleWSEvent(msg) {
             console.log('bonus ' + gBonusActive);
             break;
         case 'msg':
-            let msgText = removeTags(msg.data.msg);
-            switch (msg.data.type) {
+            let msgText = removeTags(event.data.msg);
+            switch (event.data.type) {
                 case 'eventGlobal':
                     if (msgText.includes('rift to the dark realm has opened')) {
                         const text = console.log('BOSS! 🤠');
@@ -119,10 +119,10 @@ function handleWSEvent(msg) {
             }
             break;
         case 'event':
-            if (msg.data.stage === 'end') {
+            if (event.data.stage === 'end') {
                 gOptions.eventAlertDone && alert(soundDone, 'Event finished.');
             } else if (gOptions.eventAlert) {
-                switch (msg.data.type) {
+                switch (event.data.type) {
                     case 'woodcutting':
                         alert(soundEvent, 'A spirit tree has sprung up out of the dirt...', 'Woodcutting event 🪓');
                         break;
@@ -134,7 +134,7 @@ function handleWSEvent(msg) {
                         break;
                 }
             }
-            console.log(msg.data.type + ' event');
+            console.log(event.data.type + ' event');
             break;
     }
 }
