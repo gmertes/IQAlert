@@ -72,70 +72,83 @@ function removeTags(str) {
 }
 
 function handleWSEvent(event) {
-    switch (event.type) {
-        case 'bonusTime':
-            if (event.data.length === 0 || event.data.stage === 'end') {
-                gOptions.bonusAlertDone && alert(soundDone, 'Bonus finished.');
-                gBonusActive = false;
-            } else {
-                if (gBonusActive) {
-                    gOptions.bonusAlert && alert(soundEvent, 'Bonus time extended! 🎉');
-                } else {
-                    gOptions.bonusAlert && alert(soundEvent, 'Bonus time! 🥳');
-                }
-                gBonusActive = true;
-            }
-            console.log('bonus ' + gBonusActive);
-            break;
-        case 'msg':
-            let msgText = removeTags(event.data.msg);
-            switch (event.data.type) {
-                case 'eventGlobal':
-                    if (msgText.includes('rift to the dark realm has opened')) {
-                        const text = console.log('BOSS! 🤠');
-                        gOptions.bossAlert && alert(soundBoss, text);
-                    } else if (msgText.includes('gathering bonus is now active')) {
-                        console.log(msgText);
-                        gOptions.eventAlert && alert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
-                    }
-                    break;
-                case 'clanGlobal':
-                    console.log(msgText);
-                    gOptions.clanAlert && alert(soundDone, msgText, 'IQ Clan Alert');
-                    break;
-                case 'global':
-                    if (msgText.includes('landed the final blow')) {
-                        console.log(msgText);
-                        const player = msgText.split(' landed')[0];
 
-                        if (player === gPlayerName) {
-                            gOptions.bossAlert && alert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
-                            console.log('YOU killed the boss!');
-                        } else {
-                            gOptions.bossAlertDone && alert(soundDone, `Boss defeated by ${player}.`);
-                        }
-                    }
-                    break;
+    if (event.type === 'bonusTime') {
+        if (event.data.length === 0 || event.data.stage === 'end') {
+            gOptions.bonusAlertDone && alert(soundDone, 'Bonus finished.');
+            gBonusActive = false;
+        } else {
+            if (gBonusActive) {
+                gOptions.bonusAlert && alert(soundEvent, 'Bonus time extended! 🎉');
+            } else {
+                gOptions.bonusAlert && alert(soundEvent, 'Bonus time! 🥳');
             }
-            break;
-        case 'event':
-            if (event.data.stage === 'end') {
-                gOptions.eventAlertDone && alert(soundDone, 'Event finished.');
-            } else if (gOptions.eventAlert) {
-                switch (event.data.type) {
-                    case 'woodcutting':
-                        alert(soundEvent, 'A spirit tree has sprung up out of the dirt...', 'Woodcutting event 🪓');
-                        break;
-                    case 'mining':
-                        alert(soundEvent, 'A burning meteorite filled with valuable metals...', 'Mining event ⛏');
-                        break;
-                    case 'quarrying':
-                        alert(soundEvent, 'A sinkhole has appeared in the ground...', 'Quarrying event ⚒');
-                        break;
+            gBonusActive = true;
+        }
+        console.log('bonus ' + gBonusActive);
+        return;
+    }
+
+    if (event.type === 'msg') {
+        let msgText = removeTags(event.data.msg);
+
+        if (event.data.type === 'eventGlobal') {
+            if (msgText.includes('rift to the dark realm has opened')) {
+                const text = console.log('BOSS! 🤠');
+                gOptions.bossAlert && alert(soundBoss, text);
+            } else if (msgText.includes('gathering bonus is now active')) {
+                console.log(msgText);
+                gOptions.eventAlert && alert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
+            }
+            return;
+        }
+
+        if (event.data.type === 'clanGlobal') {
+            console.log(msgText);
+            gOptions.clanAlert && alert(soundDone, msgText, 'IQ Clan Alert');
+            return;
+        }
+
+        if (event.data.type === 'global') {
+            if (msgText.includes('landed the final blow')) {
+                console.log(msgText);
+                const player = msgText.split(' landed')[0];
+
+                if (player === gPlayerName) {
+                    gOptions.bossAlert && alert(soundDone, `🥳 YOU killed the boss! 🥳`, '🎉🎉🎉🎈🎈🎈');
+                    console.log('YOU killed the boss!');
+                } else {
+                    gOptions.bossAlertDone && alert(soundDone, `Boss defeated by ${player}.`);
                 }
             }
-            console.log(event.data.type + ' event');
-            break;
+            return;
+        }
+        return;
+    }
+
+    if (event.type === 'event') {
+        console.log(event.data.type + ' event');
+
+        if (event.data.stage === 'end') {
+            gOptions.eventAlertDone && alert(soundDone, 'Event finished.');
+            return;
+        }
+
+        if (!gOptions.eventAlert)
+            return;
+
+        switch (event.data.type) {
+            case 'woodcutting':
+                alert(soundEvent, 'A spirit tree has sprung up out of the dirt...', 'Woodcutting event 🪓');
+                break;
+            case 'mining':
+                alert(soundEvent, 'A burning meteorite filled with valuable metals...', 'Mining event ⛏');
+                break;
+            case 'quarrying':
+                alert(soundEvent, 'A sinkhole has appeared in the ground...', 'Quarrying event ⚒');
+                break;
+        }
+        return;
     }
 }
 
