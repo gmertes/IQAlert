@@ -15,6 +15,8 @@ jobs:
         with:
           node-version: '20.x'
 
+      - run: git archive --format=zip --output=source.zip HEAD
+
       - name: Install dependencies
         run: npm ci
 
@@ -31,14 +33,25 @@ jobs:
           path: dist/*.zip
 
       - name: Get zip path
-        run: echo "ZIP_CHROME=dist/$(ls dist | grep chrome)" >> $GITHUB_ENV
+        run: |
+          echo "ZIP_CHROME=dist/$(ls dist | grep chrome)" >> $GITHUB_ENV
+          echo "ZIP_FF=dist/$(ls dist | grep firefox)" >> $GITHUB_ENV
 
       - name: Upload to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
         with:
-          action: 'upload'
+          action: 'publish'
           client_id: ${{ secrets.CHROME_ID }}
           client_secret: ${{ secrets.CHROME_SECRET }}
           refresh_token: ${{ secrets.CHROME_REFRESH_TOKEN }}
           extension_id: 'nhjapojbdgmjlnmlenegefgfjannjchb'
           zip_file: ${{ env.ZIP_CHROME }}
+
+      - name: Upload to Firefox Add-ons
+        uses: yayuyokitano/firefox-addon@v0.0.6-alpha
+        with:
+          api_key: ${{ secrets.FF_ISSUER }}
+          api_secret: ${{ secrets.FF_SECRET }}
+          guid: '{2ac87779-a246-4986-9f4e-882292ec11af}'
+          xpi_path: ${{ env.ZIP_FF }}
+          src_path: source.zip
