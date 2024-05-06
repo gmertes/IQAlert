@@ -8,6 +8,7 @@ const soundAuto = chrome.runtime.getURL("auto.mp3");
 const soundBoss = chrome.runtime.getURL("boss.mp3");
 const soundEvent = chrome.runtime.getURL("event.mp3");
 const soundDone = chrome.runtime.getURL("beep.mp3");
+const soundPing = chrome.runtime.getURL("ping.mp3");
 
 let gOptions;
 let gDesktopNotificationOnCooldown = false;
@@ -90,7 +91,7 @@ function handleWSEvent(event) {
     }
 
     if (event.type === 'msg') {
-        let msgText = removeTags(event.data.msg);
+        const msgText = removeTags(event.data.msg);
 
         if (event.data.type === 'eventGlobal') {
             if (msgText.includes('rift to the dark realm has opened')) {
@@ -122,6 +123,19 @@ function handleWSEvent(event) {
                 }
             }
             return;
+        }
+
+        if (event.channel === 'clan-64') {
+            if (!gOptions.clanChatAlert.enabled)
+                return;
+
+            const user = event.data.username;
+
+            if (user === gPlayerName)
+                return;
+
+            console.debug('Clan message:', user, msgText);
+            alert(soundPing, msgText, `Clan message by ${user}`);
         }
         return;
     }
@@ -232,5 +246,21 @@ window.addEventListener('message', function (event) {
     dialer.loadClanMembers().then(data => {
         const clanMembers = data.members.map(item => item.username);
         console.debug('Clan members:', clanMembers);
+
+        readOptions().then(options => {
+            const clanChatAlert = options.clanChatAlert;
+
+            for (const member in clanChatAlert.members) {
+                if (!clanMembers.includes(member))
+                    delete clanChatAlert.members[member];
+            }
+            clanMembers.forEach(member => {
+                if (!(member in clanChatAlert.members))
+                    clanChatAlert.members[member] = false;
+            });
+
+            chrome.storage.sync.set({ clanChatAlert: clanChatAlert });
+            gOptions = options;
+        });
     }).catch(() => { });
 });

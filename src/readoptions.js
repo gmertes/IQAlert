@@ -19,7 +19,12 @@ function readOptions() {
                 removeAuto: false,
                 trinketScore: false,
                 trinketScoreType: 'battler',
-            }
+            },
+            clanChatAlert: {
+                enabled: false,
+                all: false,
+                members: {},
+            },
         }, function (options) {
             resolve(options);
         });
