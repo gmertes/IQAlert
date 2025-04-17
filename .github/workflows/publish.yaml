@@ -1,9 +1,8 @@
 name: Build and publish
 
 on:
-  push:
-    tags:
-      - 'v*' 
+  release:
+    types: [ created ]
   
 jobs:
   build:
@@ -40,7 +39,7 @@ jobs:
       - name: Upload to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
         with:
-          action: 'publish'
+          action: 'upload'
           client_id: ${{ secrets.CHROME_ID }}
           client_secret: ${{ secrets.CHROME_SECRET }}
           refresh_token: ${{ secrets.CHROME_REFRESH_TOKEN }}
