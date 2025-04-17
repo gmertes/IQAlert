@@ -9,9 +9,11 @@ function readOptions() {
             bossAlert: true,
             eventAlert: true,
             clanAlert: false,
+            labAlert: true,
             bonusAlertDone: false,
             bossAlertDone: false,
             eventAlertDone: false,
+            labAlertDone: true,
             desktopNotifications: true,
             widgets: {
                 battlegrounds: false,

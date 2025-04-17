@@ -169,7 +169,7 @@ function handleWSEvent(event) {
 const bodyObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         if (mutation.type === "characterData") {
-            //autos
+            // autos
             if (mutation.target.parentNode.className === "action-timer__text") {
                 let autosRemaining = parseInt(mutation.target.data.replace('Autos Remaining: ', ''));
                 if ((autosRemaining <= gOptions.autoAlertNumber && autosRemaining > 0)) {
@@ -183,13 +183,22 @@ const bodyObserver = new MutationObserver(mutations => {
         }
 
         mutation.addedNodes.forEach(node => {
-            //raid return
+            // raid return
             if (
                 node.parentNode.className.includes("space-between") &&
                 node.innerText.toLowerCase() === "returned"
             ) {
                 const text = console.log('Raid has returned 😎');
                 gOptions.raidAlert && alert(soundDone, text);
+            }
+
+            // lab done
+            if (
+                node?.className?.includes("main-section") &&
+                node.textContent.toLowerCase().includes("open labyrinth reward chest")
+            ) {
+                const text = console.log('Open your labyrinth chest! 🎁');
+                gOptions.labAlertDone && alert(soundDone, text, 'Labyrinth Done');
             }
         });
     });
