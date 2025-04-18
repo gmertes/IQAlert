@@ -9,6 +9,7 @@ function readOptions() {
             bossAlert: true,
             eventAlert: true,
             clanAlert: false,
+            pmAlert: true,
             labAlert: true,
             bonusAlertDone: false,
             bossAlertDone: false,

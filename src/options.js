@@ -13,6 +13,7 @@ function save_options() {
         bonusAlertDone: document.getElementById('bonusAlertDone').checked,
         raidAlert: document.getElementById('raidAlert').checked,
         clanAlert: document.getElementById('clanAlert').checked,
+        pmAlert: document.getElementById('pmAlert').checked,
         labAlertDone: document.getElementById('labAlertDone').checked,
         desktopNotifications: document.getElementById('desktopNotifications').checked,
         widgets: {
@@ -46,6 +47,7 @@ function set_options() {
         document.getElementById('bonusAlertDone').checked = options.bonusAlertDone;
         document.getElementById('raidAlert').checked = options.raidAlert;
         document.getElementById('clanAlert').checked = options.clanAlert;
+        document.getElementById('pmAlert').checked = options.pmAlert;
         document.getElementById('labAlertDone').checked = options.labAlertDone;
         document.getElementById('desktopNotifications').checked = options.desktopNotifications;
         document.getElementById('widgetBattlegrounds').checked = options.widgets.battlegrounds;

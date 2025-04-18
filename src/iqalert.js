@@ -67,9 +67,16 @@ function playSound(sound, volume = 0.7) {
 function removeTags(str) {
     str = str.toString();
 
-    return str.replace(/(<([^>]+)>)/ig, '')
+    return str.trim().replace(/(<([^>]+)>)/ig, '')
         .replaceAll('[item:', '')
         .replaceAll(']', '');
+}
+
+function truncate(str, num) {
+    if (str.length > num)
+        return str.slice(0, num) + "…";
+    else 
+        return str;
 }
 
 function handleWSEvent(event) {
@@ -135,7 +142,19 @@ function handleWSEvent(event) {
                 return;
 
             console.debug('Clan message:', user, msgText);
-            alert(soundPing, msgText, `Clan message by ${user}`);
+            alert(soundPing, truncate(msgText, 80), `Clan message by ${user} 💬`);
+            return;
+        }
+
+        if (event.data.type === 'pm-from') {
+            if (!gOptions.pmAlert)
+                return;
+
+            const user = event.data.username;
+
+            console.debug('PM from:', user, msgText);
+            alert(soundPing, truncate(msgText, 80), `PM from ${user} 💬`);
+            return;
         }
         return;
     }
