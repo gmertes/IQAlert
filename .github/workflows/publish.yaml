@@ -47,7 +47,7 @@ jobs:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
       - name: Publish to Firefox Add-ons
-        uses: browser-actions/public-firefox-addon@v0.2.1
+        uses: browser-actions/release-firefox-addon@v0.2.1
         with:
           addon-id: "{2ac87779-a246-4986-9f4e-882292ec11af}"
           addon-path: ${{ env.ZIP_FF }}
