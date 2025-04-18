@@ -36,21 +36,25 @@ jobs:
           echo "ZIP_CHROME=dist/$(ls dist | grep chrome)" >> $GITHUB_ENV
           echo "ZIP_FF=dist/$(ls dist | grep firefox)" >> $GITHUB_ENV
 
-      - name: Upload to Chrome Web Store
-        uses: mobilefirstllc/cws-publish@latest
+      - name: Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
-          action: 'upload'
-          client_id: ${{ secrets.CHROME_ID }}
-          client_secret: ${{ secrets.CHROME_SECRET }}
-          refresh_token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          extension_id: 'nhjapojbdgmjlnmlenegefgfjannjchb'
-          zip_file: ${{ env.ZIP_CHROME }}
+          extension-id: "nhjapojbdgmjlnmlenegefgfjannjchb"
+          publish: true
+          file-path: ${{ env.ZIP_CHROME }}
+          client-id: ${{ secrets.CHROME_ID }}
+          client-secret: ${{ secrets.CHROME_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Upload to Firefox Add-ons
-        uses: yayuyokitano/firefox-addon@v0.0.6-alpha
+      - name: Publish to Firefox Add-ons
+        uses: browser-actions/public-firefox-addon@v0.2.1
         with:
-          api_key: ${{ secrets.FF_ISSUER }}
-          api_secret: ${{ secrets.FF_SECRET }}
-          guid: '{2ac87779-a246-4986-9f4e-882292ec11af}'
-          xpi_path: ${{ env.ZIP_FF }}
-          src_path: source.zip
+          addon-id: "{2ac87779-a246-4986-9f4e-882292ec11af}"
+          addon-path: ${{ env.ZIP_FF }}
+          source-path: source.zip
+          approval-note: |
+            Requires Node.js to build.
+            npm run build to build from source, output in build/
+            npm run pack to zip the build, output in dist/
+          auth-api-issuer: ${{ secrets.FF_ISSUER }}
+          auth-api-secret: ${{ secrets.FF_SECRET }}
