@@ -46,7 +46,7 @@ jobs:
             Requires Node.js to build.
             npm run build to build from source, output in build/
             npm run pack to zip the build, output in dist/
-          release-note: ""
+          release-note: "New release!"
           auth-api-issuer: ${{ secrets.FF_ISSUER }}
           auth-api-secret: ${{ secrets.FF_SECRET }}
 
