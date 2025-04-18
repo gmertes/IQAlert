@@ -36,16 +36,6 @@ jobs:
           echo "ZIP_CHROME=dist/$(ls dist | grep chrome)" >> $GITHUB_ENV
           echo "ZIP_FF=dist/$(ls dist | grep firefox)" >> $GITHUB_ENV
 
-      - name: Publish to Chrome Web Store
-        uses: mnao305/chrome-extension-upload@v5.0.0
-        with:
-          extension-id: "nhjapojbdgmjlnmlenegefgfjannjchb"
-          publish: true
-          file-path: ${{ env.ZIP_CHROME }}
-          client-id: ${{ secrets.CHROME_ID }}
-          client-secret: ${{ secrets.CHROME_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
       - name: Publish to Firefox Add-ons
         uses: browser-actions/release-firefox-addon@v0.2.1
         with:
@@ -59,3 +49,13 @@ jobs:
           release-note: ""
           auth-api-issuer: ${{ secrets.FF_ISSUER }}
           auth-api-secret: ${{ secrets.FF_SECRET }}
+
+      - name: Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          extension-id: "nhjapojbdgmjlnmlenegefgfjannjchb"
+          publish: true
+          file-path: ${{ env.ZIP_CHROME }}
+          client-id: ${{ secrets.CHROME_ID }}
+          client-secret: ${{ secrets.CHROME_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
