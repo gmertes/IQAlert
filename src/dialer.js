@@ -22,6 +22,7 @@ const dialer = {
     loadClanMembers: () => dial("/php/clan.php?mod=loadMembers"),
     loadInitialData: () => dial("/php/_load_initial_data.php"),
     loadTrinkets: () => dial('/php/equipment.php?mod=loadTrinkets'),
+    loadLabyrinth: () => dial('/php/misc.php?mod=loadLabyrinth'),
 }
 
 module.exports = dialer;

@@ -14,6 +14,7 @@ let gOptions;
 let gDesktopNotificationOnCooldown = false;
 let gBonusActive = false;
 let gPlayerName = undefined;
+let labInterval = undefined;
 
 if (Notification.permission !== "denied") Notification.requestPermission().catch(() => { });
 
@@ -75,8 +76,39 @@ function removeTags(str) {
 function truncate(str, num) {
     if (str.length > num)
         return str.slice(0, num) + "…";
-    else 
+    else
         return str;
+}
+
+async function checkLabyrinth() {
+    // ping the lab endpoint and show an alert if the lab is reset
+    if (!gOptions.labAlert)
+        return;
+
+    const data = await dialer.loadLabyrinth();
+    console.debug('loadLabyrinth:', data);
+
+    if (data?.turns === data?.maxTurns)
+        return;
+
+    const text = console.log('Enter the Labyrinth! ⚔️');
+
+    // only show the alert if lab has not been entered yet
+    if (data?.turns !== 0)
+        return;
+
+    alert(soundEvent, text, "Labyrinth Reset");
+}
+
+function startLabyrinthCheck() {
+    // start an interval to check the lab status every hour
+    if (!gOptions.labAlert)
+        return;
+
+    console.debug('Labyrinth check interval started');
+
+    clearInterval(labInterval);
+    labInterval = setInterval(checkLabyrinth, 3600 * 1000); // 1 hour
 }
 
 function handleWSEvent(event) {
@@ -218,6 +250,12 @@ const bodyObserver = new MutationObserver(mutations => {
             ) {
                 const text = console.log('Open your labyrinth chest! 🎁');
                 gOptions.labAlertDone && alert(soundDone, text, 'Labyrinth Done');
+
+                // stop the lab checker and wait some time before restarting it
+                clearInterval(labInterval);
+                labInterval = undefined;
+
+                setTimeout(startLabyrinthCheck, 11 * 3600 * 1000); // 11 hours
             }
         });
     });
@@ -234,7 +272,9 @@ window.addEventListener("load", function () {
         gOptions = options;
         bodyObserver.observe(document.body, observerOptions);
         console.log('v' + VERSION + ' loaded');
-    })
+
+        startLabyrinthCheck();
+    });
 });
 
 window.addEventListener('message', function (event) {
