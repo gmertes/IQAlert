@@ -255,7 +255,7 @@ const bodyObserver = new MutationObserver(mutations => {
                 clearInterval(labInterval);
                 labInterval = undefined;
 
-                setTimeout(startLabyrinthCheck, 11 * 3600 * 1000); // 11 hours
+                setTimeout(startLabyrinthCheck, 12 * 3600 * 1000); // 12 hours
             }
         });
     });
