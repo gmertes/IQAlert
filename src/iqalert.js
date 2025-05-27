@@ -136,9 +136,9 @@ function handleWSEvent(event) {
             if (msgText.includes('rift to the dark realm has opened')) {
                 const text = console.log('BOSS! 🤠');
                 gOptions.bossAlert && alert(soundBoss, text);
-            } else if (msgText.includes('gathering bonus is now active')) {
+            } else if (msgText.includes('action bonus is now active')) {
                 console.log(msgText);
-                gOptions.eventAlert && alert(soundEvent, msgText, 'IQ Gathering Bonus! ⛏');
+                gOptions.eventAlert && alert(soundEvent, msgText, 'IQ Action Bonus! 💪');
             }
             return;
         }
