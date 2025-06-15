@@ -173,18 +173,17 @@ function handleWSEvent(event) {
             if (user === gPlayerName)
                 return;
 
-            console.info(`Clan message from: ${user}: ${msgText}`);
+            console.log(`Clan message from: ${user}: ${msgText}`);
             alert(soundPing, truncate(msgText, 80), `Clan message by ${user} 💬`);
             return;
         }
 
         if (event.data.type === 'pm-from') {
-            console.info(`PM from ${user}: ${msgText}`);
+            const user = event.data.username;
+            console.log(`PM from ${user}: ${msgText}`);
 
             if (!gOptions.pmAlert)
                 return;
-
-            const user = event.data.username;
 
             alert(soundPing, truncate(msgText, 80), `PM from ${user} 💬`);
             return;
